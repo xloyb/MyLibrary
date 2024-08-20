@@ -3,10 +3,10 @@ import MyHome from "@/components/Home";
 
 export default function Home() {
   return (
-    <>
-    <Layout>
+    <div>
+
       <MyHome/>
-    </Layout>
-    </>
+
+    </div>
   );
 }

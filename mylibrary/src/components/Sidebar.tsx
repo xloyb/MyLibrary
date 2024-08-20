@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 const staticSettings = {
   sitename: "MyLibrary",
-  logo: '/icon.png'
+//   logo: '/icon.png'
 };
 
 const Sidebar = () => {
@@ -22,7 +22,7 @@ const Sidebar = () => {
           <ul className="menu bg-base-100 text-base-content min-h-full w-80 p-4 flex flex-col justify-between">
             <li className="mb-2 font-semibold text-xl">
               <Link href={'/c'}>
-                <img src={staticSettings.logo} alt="Discord Keeper Logo" width={30} height={30} />
+                {/* <img src={staticSettings.logo} alt="Discord Keeper Logo" width={30} height={30} /> */}
               </Link>
             </li>
             {/* Sidebar content here */}

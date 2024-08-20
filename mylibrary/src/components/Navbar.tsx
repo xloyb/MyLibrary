@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FaCircleRight } from "react-icons/fa6";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
+import ThemeToggle from './ThemeToggle';
 
 const Navbar = () => {
     const sitename = "MyLibrary"; 
@@ -44,7 +45,7 @@ const Navbar = () => {
                 </div>
                 <div className="navbar-end">
                     {/* <ThemeToggle/> */}
-
+                    <ThemeToggle/>
                     {/* Hardcoded Admin Panel access */}
                     <div className="dropdown dropdown-end">
                         <div tabIndex={0} role="button" className="mr-2"> 

@@ -73,7 +73,7 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} text-base-content`}>
         <div className={styles.container}>
           <div className={styles.menu}>
             <Sidebar />
@@ -82,7 +82,7 @@ const Layout = ({ children }: LayoutProps) => {
             <div className="sticky top-0 z-10">
               <Navbar />
             </div>
-            <div className="h-screen overflow-y-auto bg-base-200">              
+            <div className="h-screen overflow-y-auto bg-base-200">
               {children}
             </div>
           </div>

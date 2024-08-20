@@ -59,6 +59,13 @@ import Navbar from '@/components/Navbar';
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import {
+  ClerkProvider,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton
+} from '@clerk/nextjs'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -72,6 +79,7 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
+    <ClerkProvider>
     <html lang="en">
       <body className={`${inter.className} text-base-content`}>
         <div className={styles.container}>
@@ -89,6 +97,7 @@ const Layout = ({ children }: LayoutProps) => {
         </div>
       </body>
     </html>
+    </ClerkProvider>
   );
 };
 

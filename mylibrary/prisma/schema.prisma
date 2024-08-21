@@ -27,12 +27,6 @@ model User {
   books     Book[]   @relation("UserBooks")
 }
 
-model Author {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique
-  bio       String?
-  books     Book[]
-}
 
 model Category {
   id        Int      @id @default(autoincrement())
@@ -45,14 +39,13 @@ model Book {
   title       String
   description String? @unique
   publishedAt DateTime
-  authorId    Int
+  authorname    String?
   categoryId  Int
   userId      Int
   downloads   Int      @default(0)  
   image       String?  
   size        Float?  
 
-  author      Author   @relation(fields: [authorId], references: [id])
   category    Category @relation(fields: [categoryId], references: [id])
   user        User     @relation("UserBooks", fields: [userId], references: [id])
 }

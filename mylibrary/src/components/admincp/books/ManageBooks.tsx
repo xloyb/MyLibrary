@@ -179,34 +179,46 @@ const ManageBooks: React.FC = () => {
         }
     };
 
-
     const handleAddBook = async () => {
+        // Input validation: Check for empty or null fields
+        if (
+            !newBook.title.trim() || 
+            !newBook.description.trim() || 
+            !newBook.authorname.trim() || 
+            newBook.categoryId === 0 || 
+            !selectedFile || 
+            !selectedImage
+        ) {
+            alert('Please fill in all the required fields.');
+            return;
+        }
+    
         if (!userId) {
             console.error('User ID is not available');
             return;
         }
-
+    
         setLoading(true);
         setUploadError(null); // Reset error state
-
+    
         try {
             let filePath = '';
             let imagePath = '';
-
+    
             if (selectedFile) {
                 filePath = await uploadFile(selectedFile);
             }
-
+    
             if (selectedImage) {
                 imagePath = await uploadImage(selectedImage);
             }
-
+    
             const response = await fetch('/api/books', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ ...newBook, userId, path: filePath, image: imagePath }),
             });
-
+    
             if (response.ok) {
                 const book: Book = await response.json();
                 setBooks(prevBooks => [...prevBooks, book]);
@@ -223,6 +235,7 @@ const ManageBooks: React.FC = () => {
                 });
                 setSelectedFile(null);
                 setSelectedImage(null);
+                alert('Book added successfully!');
             } else {
                 throw new Error('Failed to add book');
             }
@@ -232,10 +245,69 @@ const ManageBooks: React.FC = () => {
             setLoading(false);
         }
     };
+    
+    // const handleAddBook = async () => {
+    //     if (!userId) {
+    //         console.error('User ID is not available');
+    //         return;
+    //     }
+
+    //     setLoading(true);
+    //     setUploadError(null); // Reset error state
+
+    //     try {
+    //         let filePath = '';
+    //         let imagePath = '';
+
+    //         if (selectedFile) {
+    //             filePath = await uploadFile(selectedFile);
+    //         }
+
+    //         if (selectedImage) {
+    //             imagePath = await uploadImage(selectedImage);
+    //         }
+
+    //         const response = await fetch('/api/books', {
+    //             method: 'POST',
+    //             headers: { 'Content-Type': 'application/json' },
+    //             body: JSON.stringify({ ...newBook, userId, path: filePath, image: imagePath }),
+    //         });
+
+    //         if (response.ok) {
+    //             const book: Book = await response.json();
+    //             setBooks(prevBooks => [...prevBooks, book]);
+    //             setNewBook({
+    //                 title: '',
+    //                 description: '',
+    //                 publishedAt: new Date().toISOString(),
+    //                 authorname: '',
+    //                 categoryId: 0,
+    //                 downloads: 0,
+    //                 image: '',
+    //                 size: 0,
+    //                 path: ''
+    //             });
+    //             setSelectedFile(null);
+    //             setSelectedImage(null);
+    //         } else {
+    //             throw new Error('Failed to add book');
+    //         }
+    //     } catch (error) {
+    //         console.error('Error adding book:', error);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
 
     const handleDeleteBook = async (bookId: number) => {
+        const confirmDelete = window.confirm('Are you sure you want to delete this book?');
+    
+        if (!confirmDelete) {
+            return; 
+        }
+    
         setLoading(true);
-        setUploadError(null); 
+        setUploadError(null);
     
         try {
             const response = await fetch(`/api/books?id=${bookId}`, {
@@ -244,158 +316,180 @@ const ManageBooks: React.FC = () => {
     
             if (response.ok) {
                 setBooks(prevBooks => prevBooks.filter(book => book.id !== bookId));
+                alert('Book deleted successfully!');
             } else {
                 throw new Error('Failed to delete book');
             }
         } catch (error) {
             console.error('Error deleting book:', error);
             setUploadError('Failed to delete book.');
+            alert('An error occurred while trying to delete the book.');
         } finally {
             setLoading(false);
         }
     };
     
+    
 
     return (
         <div className="container mx-auto p-6">
-            <h1 className="text-2xl font-bold mb-4">Manage Books</h1>
-            <div className="space-y-4">
-                <div className="form-control">
-                    <label className="label">
-                        <span className="label-text">Title</span>
-                    </label>
-                    <input
-                        type="text"
-                        name="title"
-                        value={newBook.title}
-                        onChange={handleInputChange}
-                        placeholder="Enter book title"
-                        className="input input-bordered w-full"
-                    />
-                </div>
-                <div className="form-control">
-                    <label className="label">
-                        <span className="label-text">Description</span>
-                    </label>
-                    <textarea
-                        name="description"
-                        value={newBook.description}
-                        onChange={handleTextAreaChange}
-                        placeholder="Enter book description"
-                        className="textarea textarea-bordered w-full"
-                    />
-                </div>
-                <div className="form-control">
-                    <label className="label">
-                        <span className="label-text">Author</span>
-                    </label>
-                    <input
-                        type="text"
-                        name="authorname"
-                        value={newBook.authorname}
-                        onChange={handleInputChange}
-                        placeholder="Enter author name"
-                        className="input input-bordered w-full"
-                    />
-                </div>
-                <div className="form-control">
-                    <label className="label">
-                        <span className="label-text">Category</span>
-                    </label>
-                    <select
-                        name="categoryId"
-                        value={newBook.categoryId}
-                        onChange={handleSelectChange}
-                        className="select select-bordered w-full"
-                    >
-                        <option value={0}>Select Category</option>
-                        {categories.map(category => (
-                            <option key={category.id} value={category.id}>
-                                {category.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div className="form-control">
-                    <label className="label">
-                        <span className="label-text">Published Date</span>
-                    </label>
-                    <input
-                        type="date"
-                        name="publishedAt"
-                        value={newBook.publishedAt.split('T')[0]}
-                        onChange={handleInputChange}
-                        className="input input-bordered w-full"
-                    />
-                </div>
-                <div className="form-control">
-                    <label className="label">
-                        <span className="label-text">File</span>
-                    </label>
-                    <input
-                        type="file"
-                        accept=".pdf"
-                        onChange={handleFileChange}
-                        className="file-input file-input-bordered w-full"
-                    />
-                </div>
-                <div className="form-control">
-                    <label className="label">
-                        <span className="label-text">Image</span>
-                    </label>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                        className="file-input file-input-bordered w-full"
-                    />
-                </div>
-                {uploadError && <p className="text-red-500">{uploadError}</p>}
-                <button
-                    onClick={handleAddBook}
-                    disabled={loading}
-                    className="btn btn-primary"
+        <h1 className="text-2xl font-bold mb-4">Manage Books</h1>
+        <div className="space-y-4">
+            <div className="form-control">
+                <label className="label">
+                    <span className="label-text">Title</span>
+                </label>
+                <input
+                    type="text"
+                    name="title"
+                    value={newBook.title}
+                    onChange={handleInputChange}
+                    placeholder="Enter book title"
+                    className="input input-bordered w-full"
+                    required
+                />
+            </div>
+    
+            <div className="form-control">
+                <label className="label">
+                    <span className="label-text">Description</span>
+                </label>
+                <textarea
+                    name="description"
+                    value={newBook.description}
+                    onChange={handleTextAreaChange}
+                    placeholder="Enter book description"
+                    className="textarea textarea-bordered w-full"
+                    required
+                />
+            </div>
+    
+            <div className="form-control">
+                <label className="label">
+                    <span className="label-text">Author</span>
+                </label>
+                <input
+                    type="text"
+                    name="authorname"
+                    value={newBook.authorname}
+                    onChange={handleInputChange}
+                    placeholder="Enter author name"
+                    className="input input-bordered w-full"
+                    required
+                />
+            </div>
+    
+            <div className="form-control">
+                <label className="label">
+                    <span className="label-text">Category</span>
+                </label>
+                <select
+                    name="categoryId"
+                    value={newBook.categoryId}
+                    onChange={handleSelectChange}
+                    className="select select-bordered w-full"
+                    required
                 >
-                    {loading ? 'Adding...' : 'Add Book'}
-                </button>
+                    <option value={0} disabled>
+                        Select Category
+                    </option>
+                    {categories.map(category => (
+                        <option key={category.id} value={category.id}>
+                            {category.name}
+                        </option>
+                    ))}
+                </select>
             </div>
-            <div className="mt-6">
-                <h2 className="text-xl font-bold mb-4">Books List</h2>
-                <table className="table table-zebra w-full">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>Author</th>
-                            <th>Published At</th>
-                            <th>Category</th>
-                            <th>Downloads</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {books.map(book => (
-                            <tr key={book.id}>
-                                <td>{book.title}</td>
-                                <td>{book.description}</td>
-                                <td>{book.authorname}</td>
-                                <td>{new Date(book.publishedAt).toLocaleDateString()}</td>
-                                <td>{categories.find(category => category.id === book.categoryId)?.name}</td>
-                                <td>{book.downloads}</td>
-                                <td>
-                                    <button
-                                        className="btn btn-xs btn-danger"
-                                        onClick={() => handleDeleteBook(book.id)}
-                                    >
-                                        Delete
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+    
+            <div className="form-control">
+                <label className="label">
+                    <span className="label-text">Published Date</span>
+                </label>
+                <input
+                    type="date"
+                    name="publishedAt"
+                    value={newBook.publishedAt.split('T')[0]}
+                    onChange={handleInputChange}
+                    className="input input-bordered w-full"
+                    required
+                />
             </div>
+    
+            <div className="form-control">
+                <label className="label">
+                    <span className="label-text">File</span>
+                </label>
+                <input
+                    type="file"
+                    accept=".pdf"
+                    onChange={handleFileChange}
+                    className="file-input file-input-bordered w-full"
+                    required
+                />
+            </div>
+    
+            <div className="form-control">
+                <label className="label">
+                    <span className="label-text">Image</span>
+                </label>
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="file-input file-input-bordered w-full"
+                    required
+                />
+            </div>
+    
+            {uploadError && <p className="text-red-500">{uploadError}</p>}
+    
+            <button
+                onClick={handleAddBook}
+                disabled={loading}
+                className="btn btn-primary"
+            >
+                {loading ? 'Adding...' : 'Add Book'}
+            </button>
         </div>
+    
+        <div className="mt-6">
+            <h2 className="text-xl font-bold mb-4">Books List</h2>
+            <table className="table table-zebra w-full">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Author</th>
+                        <th>Published At</th>
+                        <th>Category</th>
+                        <th>Downloads</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {books.map(book => (
+                        <tr key={book.id}>
+                            <td>{book.title}</td>
+                            <td>{book.description}</td>
+                            <td>{book.authorname}</td>
+                            <td>{new Date(book.publishedAt).toLocaleDateString()}</td>
+                            <td>{categories.find(category => category.id === book.categoryId)?.name}</td>
+                            <td>{book.downloads}</td>
+                            <td>
+                                <button
+                                    className="btn btn-xs btn-danger"
+                                    onClick={() => handleDeleteBook(book.id)}
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
     );
 };
 

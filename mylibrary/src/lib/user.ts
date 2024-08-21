@@ -40,3 +40,15 @@ export async function updateUser(id: number, data: Partial<{ email: string; pass
       throw new Error(`Failed to update user with ID ${id}: ${err.message}`);
     }
   }
+
+  export async function deleteUser(id: number) {
+    try {
+      await prisma.user.delete({
+        where: { id },
+      });
+      return { message: `User with ID ${id} deleted successfully` };
+    } catch (error) {
+      const err = error as Error;
+      throw new Error(`Failed to delete user with ID ${id}: ${err.message}`);
+    }
+  }

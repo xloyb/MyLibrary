@@ -403,9 +403,10 @@ const ManageBooks: React.FC = () => {
                 console.error('Error fetching books:', error);
             }
         };
-
+    
         fetchBooks();
     }, []);
+    
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target;
@@ -445,47 +446,90 @@ const ManageBooks: React.FC = () => {
 
     const uploadFile = async (file: File) => {
         const formData = new FormData();
-        formData.append('file', file);
-
+        formData.append('filepond', file);
+      
         try {
-            const response = await fetch('/api/update-pdf', {
-                method: 'POST',
-                body: formData
-            });
-
-            if (response.ok) {
-                const { path } = await response.json();
-                return path;
-            } else {
-                throw new Error('Failed to upload file');
-            }
+          const response = await fetch('/api/update-pdf', {
+            method: 'POST',
+            body: formData
+          });
+      
+          if (response.ok) {
+            const { path } = await response.json();
+            return path;
+          } else {
+            throw new Error('Failed to upload file');
+          }
         } catch (error) {
-            setUploadError('File upload failed.');
-            throw error;
+          console.error('File upload failed:', error);
+          throw error;
         }
-    };
-
+      };
+      
     const uploadImage = async (file: File) => {
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('file', file);
 
-        try {
-            const response = await fetch('/api/update-image', {
-                method: 'POST',
-                body: formData
-            });
+        const response = await fetch('/api/upload', {
+            method: 'POST',
+            body: formData
+        });
 
-            if (response.ok) {
-                const { image } = await response.json();
-                return image;
-            } else {
-                throw new Error('Failed to upload image');
-            }
-        } catch (error) {
-            setUploadError('Image upload failed.');
-            throw error;
+        if (response.ok) {
+            const { filename } = await response.json();
+            return filename;
+        } else {
+            throw new Error('Failed to upload file');
         }
     };
+
+
+    //   const uploadImage = async (file: File): Promise<string> => {
+    //     const formData = new FormData();
+    //     formData.append('image', file); // Ensure the key here matches what your backend expects
+    
+    //     try {
+    //         const response = await fetch('/api/upload', {
+    //             method: 'POST',
+    //             body: formData,
+    //         });
+    
+    //         if (!response.ok) {
+    //             const errorText = await response.text();
+    //             throw new Error(`Failed to upload image: ${errorText}`);
+    //         }
+    
+    //         const { image } = await response.json();
+    //         return image; // Return the image filename or URL as needed
+    //     } catch (error) {
+    //         setUploadError('Image upload failed.'); // Assuming `setUploadError` is a state setter for error messages
+    //         console.error('Image upload error:', error);
+    //         throw error; // Re-throw the error to handle it in the caller
+    //     }
+    // };
+    
+    
+    // const uploadImage = async (file: File) => {
+    //     const formData = new FormData();
+    //     formData.append('image', file);
+
+    //     try {
+    //         const response = await fetch('/api/upload', {
+    //             method: 'POST',
+    //             body: formData
+    //         });
+
+    //         if (response.ok) {
+    //             const { image } = await response.json();
+    //             return image;
+    //         } else {
+    //             throw new Error('Failed to upload image');
+    //         }
+    //     } catch (error) {
+    //         setUploadError('Image upload failed.');
+    //         throw error;
+    //     }
+    // };
 
     const handleAddBook = async () => {
         if (!userId) {

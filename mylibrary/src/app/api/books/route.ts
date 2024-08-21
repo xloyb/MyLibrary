@@ -60,7 +60,7 @@ export async function DELETE(request: Request) {
   const id = url.searchParams.get('id');
 
   if (!id) {
-    return NextResponse.error(); 
+    return NextResponse.error(); // or a custom response if the ID is missing
   }
 
   try {
@@ -74,3 +74,13 @@ export async function DELETE(request: Request) {
   }
 }
 
+// Get all books
+export async function GET() {
+  try {
+    const books = await prisma.book.findMany();
+    return NextResponse.json(books);
+  } catch (error) {
+    console.error('Failed to fetch books:', error);
+    return NextResponse.error();
+  }
+}

@@ -47,3 +47,17 @@ export async function getBookById(id: number) {
       throw new Error(`Failed to retrieve books: ${err.message}`);
     }
   }
+
+  export async function updateBook(id: number, data: Partial<{ title: string; description: string; publishedAt: Date; authorname: string; categoryId: number; image: string; size: number }>) {
+    try {
+      const updatedBook = await prisma.book.update({
+        where: { id },
+        data,
+      });
+      return updatedBook;
+    } catch (error) {
+      const err = error as Error;
+      throw new Error(`Failed to update book with ID ${id}: ${err.message}`);
+    }
+  }
+  

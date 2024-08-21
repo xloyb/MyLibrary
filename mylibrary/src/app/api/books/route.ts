@@ -56,11 +56,16 @@ export async function PUT(request: Request) {
 
 // Delete a book
 export async function DELETE(request: Request) {
-  const { id } = await request.json();
+  const url = new URL(request.url);
+  const id = url.searchParams.get('id');
+
+  if (!id) {
+    return NextResponse.error(); 
+  }
 
   try {
     await prisma.book.delete({
-      where: { id },
+      where: { id: parseInt(id) },
     });
     return NextResponse.json({ message: 'Book deleted successfully' });
   } catch (error) {
@@ -68,3 +73,4 @@ export async function DELETE(request: Request) {
     return NextResponse.error();
   }
 }
+

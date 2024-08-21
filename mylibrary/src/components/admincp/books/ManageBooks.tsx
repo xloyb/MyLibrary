@@ -298,6 +298,10 @@
 
 // export default ManageBooks;
 
+
+
+
+
 "use client";
 import { useAuth } from '@clerk/nextjs';
 import React, { useState, useEffect } from 'react';
@@ -340,6 +344,7 @@ const ManageBooks: React.FC = () => {
     const [userId, setUserId] = useState<number | null>(null);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
+    const [uploadError, setUploadError] = useState<string | null>(null);
 
     const { userId: clerkUserId } = useAuth();
 
@@ -441,17 +446,22 @@ const ManageBooks: React.FC = () => {
     const uploadFile = async (file: File) => {
         const formData = new FormData();
         formData.append('file', file);
-    
-        const response = await fetch('/api/update-pdf', {
-            method: 'POST',
-            body: formData
-        });
-    
-        if (response.ok) {
-            const { path } = await response.json();
-            return path;
-        } else {
-            throw new Error('Failed to upload file');
+
+        try {
+            const response = await fetch('/api/update-pdf', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                const { path } = await response.json();
+                return path;
+            } else {
+                throw new Error('Failed to upload file');
+            }
+        } catch (error) {
+            setUploadError('File upload failed.');
+            throw error;
         }
     };
 
@@ -459,16 +469,21 @@ const ManageBooks: React.FC = () => {
         const formData = new FormData();
         formData.append('image', file);
 
-        const response = await fetch('/api/update-image', {
-            method: 'POST',
-            body: formData
-        });
+        try {
+            const response = await fetch('/api/update-image', {
+                method: 'POST',
+                body: formData
+            });
 
-        if (response.ok) {
-            const { image } = await response.json();
-            return image;
-        } else {
-            throw new Error('Failed to upload image');
+            if (response.ok) {
+                const { image } = await response.json();
+                return image;
+            } else {
+                throw new Error('Failed to upload image');
+            }
+        } catch (error) {
+            setUploadError('Image upload failed.');
+            throw error;
         }
     };
 
@@ -479,6 +494,8 @@ const ManageBooks: React.FC = () => {
         }
 
         setLoading(true);
+        setUploadError(null); // Reset error state
+
         try {
             let filePath = '';
             let imagePath = '';
@@ -514,7 +531,7 @@ const ManageBooks: React.FC = () => {
                 setSelectedFile(null);
                 setSelectedImage(null);
             } else {
-                console.error('Failed to add book');
+                throw new Error('Failed to add book');
             }
         } catch (error) {
             console.error('Error adding book:', error);
@@ -522,6 +539,29 @@ const ManageBooks: React.FC = () => {
             setLoading(false);
         }
     };
+
+    const handleDeleteBook = async (bookId: number) => {
+        setLoading(true);
+        setUploadError(null); 
+    
+        try {
+            const response = await fetch(`/api/books?id=${bookId}`, {
+                method: 'DELETE',
+            });
+    
+            if (response.ok) {
+                setBooks(prevBooks => prevBooks.filter(book => book.id !== bookId));
+            } else {
+                throw new Error('Failed to delete book');
+            }
+        } catch (error) {
+            console.error('Error deleting book:', error);
+            setUploadError('Failed to delete book.');
+        } finally {
+            setLoading(false);
+        }
+    };
+    
 
     return (
         <div className="container mx-auto p-6">
@@ -554,7 +594,7 @@ const ManageBooks: React.FC = () => {
                 </div>
                 <div className="form-control">
                     <label className="label">
-                        <span className="label-text">Author Name</span>
+                        <span className="label-text">Author</span>
                     </label>
                     <input
                         type="text"
@@ -575,7 +615,7 @@ const ManageBooks: React.FC = () => {
                         onChange={handleSelectChange}
                         className="select select-bordered w-full"
                     >
-                        <option value="">Select a category</option>
+                        <option value={0}>Select Category</option>
                         {categories.map(category => (
                             <option key={category.id} value={category.id}>
                                 {category.name}
@@ -585,10 +625,23 @@ const ManageBooks: React.FC = () => {
                 </div>
                 <div className="form-control">
                     <label className="label">
+                        <span className="label-text">Published Date</span>
+                    </label>
+                    <input
+                        type="date"
+                        name="publishedAt"
+                        value={newBook.publishedAt.split('T')[0]}
+                        onChange={handleInputChange}
+                        className="input input-bordered w-full"
+                    />
+                </div>
+                <div className="form-control">
+                    <label className="label">
                         <span className="label-text">File</span>
                     </label>
                     <input
                         type="file"
+                        accept=".pdf"
                         onChange={handleFileChange}
                         className="file-input file-input-bordered w-full"
                     />
@@ -599,10 +652,12 @@ const ManageBooks: React.FC = () => {
                     </label>
                     <input
                         type="file"
+                        accept="image/*"
                         onChange={handleImageChange}
                         className="file-input file-input-bordered w-full"
                     />
                 </div>
+                {uploadError && <p className="text-red-500">{uploadError}</p>}
                 <button
                     onClick={handleAddBook}
                     disabled={loading}
@@ -612,20 +667,40 @@ const ManageBooks: React.FC = () => {
                 </button>
             </div>
             <div className="mt-6">
-                <h2 className="text-xl font-semibold">Books List</h2>
-                <ul className="list-disc pl-5">
-                    {books.map(book => (
-                        <li key={book.id}>
-                            <h3 className="text-lg font-medium">{book.title}</h3>
-                            <p>{book.description}</p>
-                            <p>Published on: {book.publishedAt}</p>
-                            <p>Author: {book.authorname}</p>
-                            <p>Category ID: {book.categoryId}</p>
-                            <p>Downloads: {book.downloads}</p>
-                            <img src={book.image} alt={book.title} className="w-32 h-32 object-cover" />
-                        </li>
-                    ))}
-                </ul>
+                <h2 className="text-xl font-bold mb-4">Books List</h2>
+                <table className="table table-zebra w-full">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Author</th>
+                            <th>Published At</th>
+                            <th>Category</th>
+                            <th>Downloads</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {books.map(book => (
+                            <tr key={book.id}>
+                                <td>{book.title}</td>
+                                <td>{book.description}</td>
+                                <td>{book.authorname}</td>
+                                <td>{new Date(book.publishedAt).toLocaleDateString()}</td>
+                                <td>{categories.find(category => category.id === book.categoryId)?.name}</td>
+                                <td>{book.downloads}</td>
+                                <td>
+                                    <button
+                                        className="btn btn-xs btn-danger"
+                                        onClick={() => handleDeleteBook(book.id)}
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     );

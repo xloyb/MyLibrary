@@ -16,9 +16,11 @@ datasource db {
 
 model User {
   id        Int      @id @default(autoincrement())
+  clerkuserid String? @unique
   email     String   @unique
-  password  String
-  name      String?
+  password  String?
+  username      String?
+  avatar    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -41,7 +43,7 @@ model Category {
 model Book {
   id          Int      @id @default(autoincrement())
   title       String
-  description String?
+  description String? @unique
   publishedAt DateTime
   authorId    Int
   categoryId  Int

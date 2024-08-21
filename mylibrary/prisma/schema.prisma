@@ -15,17 +15,20 @@ datasource db {
 
 
 model User {
-  id        Int      @id @default(autoincrement())
-  clerkuserid String? @unique
-  email     String   @unique
-  password  String?
-  username      String?
-  avatar    String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  clerkuserid String?  @unique
+  email       String   @unique
+  password    String?
+  username    String?
+  avatar      String?
+  isMod       Boolean  @default(false)
+  isAdmin     Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  books     Book[]   @relation("UserBooks")
+  books       Book[]   @relation("UserBooks")
 }
+
 
 
 model Category {

@@ -20,3 +20,17 @@ export async function createBook(title: string, description: string | null, publ
     throw new Error(`Failed to create book: ${err.message}`);
   }
 }
+
+
+export async function getBookById(id: number) {
+    try {
+      const book = await prisma.book.findUnique({
+        where: { id },
+        include: { category: true, user: true },
+      });
+      return book;
+    } catch (error) {
+      const err = error as Error;
+      throw new Error(`Failed to retrieve book with ID ${id}: ${err.message}`);
+    }
+  }

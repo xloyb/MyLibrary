@@ -14,3 +14,18 @@ export async function createCategory(name: string) {
       throw new Error(`Failed to create category: ${err.message}`);
     }
   }
+
+
+
+  // Get a category by its ID
+export async function getCategoryById(id: number) {
+    try {
+      const category = await prisma.category.findUnique({
+        where: { id },
+      });
+      return category;
+    } catch (error) {
+      const err = error as Error;
+      throw new Error(`Failed to get category with ID ${id}: ${err.message}`);
+    }
+  }

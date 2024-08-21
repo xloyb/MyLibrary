@@ -29,3 +29,15 @@ export async function getCategoryById(id: number) {
       throw new Error(`Failed to get category with ID ${id}: ${err.message}`);
     }
   }
+
+
+  // Get all categories
+export async function getAllCategories() {
+    try {
+      const categories = await prisma.category.findMany();
+      return categories;
+    } catch (error) {
+      const err = error as Error;
+      throw new Error(`Failed to retrieve categories: ${err.message}`);
+    }
+  }

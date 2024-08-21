@@ -27,8 +27,7 @@
 //   }
 // };
 
-
-// src/pages/api/upload.ts
+// src/app/api/upload/route.ts
 import { IncomingForm } from 'formidable';
 import fs from 'fs';
 import path from 'path';
@@ -50,6 +49,11 @@ const uploadHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (err) {
       console.error('Error parsing form:', err);
       return res.status(500).json({ message: 'Failed to parse form' });
+    }
+
+    // Type guard to check if files.file is defined
+    if (!files.file || !Array.isArray(files.file)) {
+      return res.status(400).json({ error: 'No files received.' });
     }
 
     const file = files.file[0];

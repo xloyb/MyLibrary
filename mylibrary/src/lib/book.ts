@@ -61,3 +61,14 @@ export async function getBookById(id: number) {
     }
   }
   
+  export async function deleteBook(id: number) {
+    try {
+      await prisma.book.delete({
+        where: { id },
+      });
+      return { message: `Book with ID ${id} deleted successfully` };
+    } catch (error) {
+      const err = error as Error;
+      throw new Error(`Failed to delete book with ID ${id}: ${err.message}`);
+    }
+  }

@@ -55,3 +55,17 @@ export async function updateCategory(id: number, name: string) {
       throw new Error(`Failed to update category with ID ${id}: ${err.message}`);
     }
   }
+
+
+  // Delete a category by its ID
+export async function deleteCategory(id: number) {
+    try {
+      await prisma.category.delete({
+        where: { id },
+      });
+      return { message: `Category with ID ${id} deleted successfully` };
+    } catch (error) {
+      const err = error as Error;
+      throw new Error(`Failed to delete category with ID ${id}: ${err.message}`);
+    }
+  }

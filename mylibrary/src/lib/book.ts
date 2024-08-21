@@ -34,3 +34,16 @@ export async function getBookById(id: number) {
       throw new Error(`Failed to retrieve book with ID ${id}: ${err.message}`);
     }
   }
+
+
+  export async function getAllBooks() {
+    try {
+      const books = await prisma.book.findMany({
+        include: { category: true, user: true },
+      });
+      return books;
+    } catch (error) {
+      const err = error as Error;
+      throw new Error(`Failed to retrieve books: ${err.message}`);
+    }
+  }

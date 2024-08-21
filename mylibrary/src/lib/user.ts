@@ -1,54 +1,54 @@
 import prisma from './client';
 
-export async function getUserById(id: number) {
-    try {
-      const user = await prisma.user.findUnique({
-        where: { id },
-      });
-      return user;
-    } catch (error) {
-      const err = error as Error;
-      throw new Error(`Failed to retrieve user with ID ${id}: ${err.message}`);
-    }
+// Get user by Clerk user ID
+export async function getUserByClerkUserId(clerkuserid: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { clerkuserid },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        avatar: true,
+        isAdmin: true,
+        isMod: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+    return user;
+  } catch (error) {
+    const err = error as Error;
+    throw new Error(`Failed to retrieve user with Clerk user ID ${clerkuserid}: ${err.message}`);
   }
+}
 
-
-  export async function getUserByEmail(email: string) {
-    try {
-      const user = await prisma.user.findUnique({
-        where: { email },
-      });
-      return user;
-    } catch (error) {
-      const err = error as Error;
-      throw new Error(`Failed to retrieve user with email ${email}: ${err.message}`);
-    }
+// Update user by Clerk user ID, allowing updates for isAdmin and isMod fields
+export async function updateUserByClerkUserId(
+  clerkuserid: string,
+  data: Partial<{ email: string; password: string; username: string; avatar: string; isAdmin: boolean; isMod: boolean }>
+) {
+  try {
+    const updatedUser = await prisma.user.update({
+      where: { clerkuserid },
+      data,
+    });
+    return updatedUser;
+  } catch (error) {
+    const err = error as Error;
+    throw new Error(`Failed to update user with Clerk user ID ${clerkuserid}: ${err.message}`);
   }
+}
 
-
-
-
-export async function updateUser(id: number, data: Partial<{ email: string; password: string; username: string; avatar: string }>) {
-    try {
-      const updatedUser = await prisma.user.update({
-        where: { id },
-        data,
-      });
-      return updatedUser;
-    } catch (error) {
-      const err = error as Error;
-      throw new Error(`Failed to update user with ID ${id}: ${err.message}`);
-    }
+// Delete user by Clerk user ID
+export async function deleteUserByClerkUserId(clerkuserid: string) {
+  try {
+    await prisma.user.delete({
+      where: { clerkuserid },
+    });
+    return { message: `User with Clerk user ID ${clerkuserid} deleted successfully` };
+  } catch (error) {
+    const err = error as Error;
+    throw new Error(`Failed to delete user with Clerk user ID ${clerkuserid}: ${err.message}`);
   }
-
-  export async function deleteUser(id: number) {
-    try {
-      await prisma.user.delete({
-        where: { id },
-      });
-      return { message: `User with ID ${id} deleted successfully` };
-    } catch (error) {
-      const err = error as Error;
-      throw new Error(`Failed to delete user with ID ${id}: ${err.message}`);
-    }
-  }
+}

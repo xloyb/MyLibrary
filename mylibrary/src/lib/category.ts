@@ -41,3 +41,17 @@ export async function getAllCategories() {
       throw new Error(`Failed to retrieve categories: ${err.message}`);
     }
   }
+
+  // Update a category by its ID
+export async function updateCategory(id: number, name: string) {
+    try {
+      const updatedCategory = await prisma.category.update({
+        where: { id },
+        data: { name },
+      });
+      return updatedCategory;
+    } catch (error) {
+      const err = error as Error;
+      throw new Error(`Failed to update category with ID ${id}: ${err.message}`);
+    }
+  }

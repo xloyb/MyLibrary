@@ -52,3 +52,6 @@ export async function deleteUserByClerkUserId(clerkuserid: string) {
     throw new Error(`Failed to delete user with Clerk user ID ${clerkuserid}: ${err.message}`);
   }
 }
+
+
+

@@ -48,6 +48,7 @@ model Book {
   downloads   Int      @default(0)  
   image       String?  
   size        Float?  
+  path        String
 
   category    Category @relation(fields: [categoryId], references: [id])
   user        User     @relation("UserBooks", fields: [userId], references: [id])

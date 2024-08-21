@@ -1,0 +1,271 @@
+"use client";
+import { useAuth } from '@clerk/nextjs';
+import React, { useState, useEffect } from 'react';
+
+type Category = {
+    id: number;
+    name: string;
+};
+
+type Book = {
+    title: string;
+    description: string;
+    publishedAt: string;
+    authorname: string;
+    categoryId: number;
+    userId: number;
+    downloads: number;
+    image: string;
+    size: number;
+    path: string;
+};
+
+const ManageBooks: React.FC = () => {
+    const [newBook, setNewBook] = useState<Omit<Book, 'userId'>>({
+        title: '',
+        description: '',
+        publishedAt: new Date().toISOString(),
+        authorname: '',
+        categoryId: 0,
+        downloads: 0,
+        image: '',
+        size: 0,
+        path: ''
+    });
+
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [books, setBooks] = useState<Book[]>([]);
+    const [userId, setUserId] = useState<number | null>(null);
+
+    const { userId: clerkUserId } = useAuth();
+
+    // Fetch user ID based on Clerk user ID
+    useEffect(() => {
+        const fetchUserId = async () => {
+            if (!clerkUserId) {
+                console.error('Clerk User ID is not available');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/userRoles?clerkUserId=${clerkUserId}`);
+                if (response.ok) {
+                    const user = await response.json();
+                    setUserId(user.id); // Assuming `id` is the user ID
+                } else {
+                    console.error('Failed to fetch user ID');
+                }
+            } catch (error) {
+                console.error('Error fetching user ID:', error);
+            }
+        };
+
+        fetchUserId();
+    }, [clerkUserId]);
+
+    // Fetch categories
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch('/api/categories');
+                if (response.ok) {
+                    const categories = await response.json();
+                    setCategories(categories);
+                } else {
+                    console.error('Failed to fetch categories');
+                }
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value, type } = e.target;
+        const newValue = type === 'number' ? parseInt(value, 10) : value;
+
+        setNewBook(prevBook => ({
+            ...prevBook,
+            [name]: newValue
+        }));
+    };
+
+    const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setNewBook(prevBook => ({
+            ...prevBook,
+            [name]: value
+        }));
+    };
+
+    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setNewBook(prevBook => ({
+            ...prevBook,
+            [name]: parseInt(value, 10)
+        }));
+    };
+
+    const handleAddBook = async () => {
+        if (!userId) {
+            console.error('User ID is not available');
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const response = await fetch('/api/books', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...newBook, userId }),
+            });
+
+            if (response.ok) {
+                const book: Book = await response.json();
+                setBooks(prevBooks => [...prevBooks, book]);
+                setNewBook({
+                    title: '',
+                    description: '',
+                    publishedAt: new Date().toISOString(),
+                    authorname: '',
+                    categoryId: 0,
+                    downloads: 0,
+                    image: '',
+                    size: 0,
+                    path: ''
+                });
+            } else {
+                console.error('Failed to add book');
+            }
+        } catch (error) {
+            console.error('Error adding book:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <div className="container mx-auto p-6">
+            <h1 className="text-2xl font-bold mb-4">Manage Books</h1>
+            <div className="space-y-4">
+                <div className="form-control">
+                    <label className="label">
+                        <span className="label-text">Title</span>
+                    </label>
+                    <input
+                        type="text"
+                        name="title"
+                        value={newBook.title}
+                        onChange={handleInputChange}
+                        placeholder="Enter book title"
+                        className="input input-bordered w-full"
+                    />
+                </div>
+                <div className="form-control">
+                    <label className="label">
+                        <span className="label-text">Description</span>
+                    </label>
+                    <textarea
+                        name="description"
+                        value={newBook.description}
+                        onChange={handleTextAreaChange}
+                        placeholder="Enter book description"
+                        className="textarea textarea-bordered w-full"
+                    />
+                </div>
+                <div className="form-control">
+                    <label className="label">
+                        <span className="label-text">Author Name</span>
+                    </label>
+                    <input
+                        type="text"
+                        name="authorname"
+                        value={newBook.authorname}
+                        onChange={handleInputChange}
+                        placeholder="Enter author name"
+                        className="input input-bordered w-full"
+                    />
+                </div>
+                <div className="form-control">
+                    <label className="label">
+                        <span className="label-text">Category</span>
+                    </label>
+                    <select
+                        name="categoryId"
+                        value={newBook.categoryId}
+                        onChange={handleSelectChange}
+                        className="select select-bordered w-full"
+                    >
+                        <option value="">Select a category</option>
+                        {categories.map(category => (
+                            <option key={category.id} value={category.id}>
+                                {category.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className="form-control">
+                    <label className="label">
+                        <span className="label-text">Image URL</span>
+                    </label>
+                    <input
+                        type="text"
+                        name="image"
+                        value={newBook.image}
+                        onChange={handleInputChange}
+                        placeholder="Enter image URL"
+                        className="input input-bordered w-full"
+                    />
+                </div>
+                <div className="form-control">
+                    <label className="label">
+                        <span className="label-text">Size</span>
+                    </label>
+                    <input
+                        type="number"
+                        name="size"
+                        value={newBook.size}
+                        onChange={handleInputChange}
+                        placeholder="Enter size"
+                        className="input input-bordered w-full"
+                    />
+                </div>
+                <div className="form-control">
+                    <label className="label">
+                        <span className="label-text">File Path</span>
+                    </label>
+                    <input
+                        type="text"
+                        name="path"
+                        value={newBook.path}
+                        onChange={handleInputChange}
+                        placeholder="Enter file path"
+                        className="input input-bordered w-full"
+                    />
+                </div>
+                <button
+                    onClick={handleAddBook}
+                    className={`btn ${loading ? 'btn-disabled' : 'btn-primary'}`}
+                    disabled={loading}
+                >
+                    {loading ? 'Adding...' : 'Add Book'}
+                </button>
+            </div>
+            <div className="mt-6">
+                <h2 className="text-xl font-semibold">Book List</h2>
+                <ul className="list-disc pl-5 mt-2">
+                    {books.map((book, index) => (
+                        <li key={index} className="mb-2">
+                            {book.title}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </div>
+    );
+};
+
+export default ManageBooks;

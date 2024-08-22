@@ -41,7 +41,7 @@ model Book {
   id          Int      @id @default(autoincrement())
   title       String
   description String? @unique
-  publishedAt DateTime
+  publishedAt String
   authorname    String?
   categoryId  Int
   userId      Int

@@ -10,7 +10,7 @@ export async function POST(request: Request) {
       data: {
         title,
         description,
-        publishedAt: new Date(publishedAt),
+        publishedAt,
         authorname,
         categoryId,
         userId,
@@ -37,7 +37,7 @@ export async function PUT(request: Request) {
       data: {
         title,
         description,
-        publishedAt: new Date(publishedAt),
+        publishedAt,
         authorname,
         categoryId,
         userId,

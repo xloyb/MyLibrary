@@ -5,7 +5,7 @@ import PDFParser from 'pdf2json';
 import path from 'path';
 
 // Make sure you use the correct path to the public directory
-const PUBLIC_DIR = path.join(process.cwd(), 'public');
+const PUBLIC_DIR = path.join(process.cwd(), 'public/books/MyDevify-pdf');
 
 export async function POST(req: NextRequest) {
   const formData: FormData = await req.formData();

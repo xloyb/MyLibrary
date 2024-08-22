@@ -8,7 +8,7 @@ type Category = {
 };
 
 type Book = {
-    id: number; // Add id to handle updates
+    id: number; 
     title: string;
     description: string;
     publishedAt: string;
@@ -55,7 +55,7 @@ const ManageBooks: React.FC = () => {
                 const response = await fetch(`/api/userRoles?clerkUserId=${clerkUserId}`);
                 if (response.ok) {
                     const user = await response.json();
-                    setUserId(user.id); // Assuming `id` is the user ID
+                    setUserId(user.id); 
                 } else {
                     console.error('Failed to fetch user ID');
                 }
@@ -246,58 +246,6 @@ const ManageBooks: React.FC = () => {
         }
     };
     
-    // const handleAddBook = async () => {
-    //     if (!userId) {
-    //         console.error('User ID is not available');
-    //         return;
-    //     }
-
-    //     setLoading(true);
-    //     setUploadError(null); // Reset error state
-
-    //     try {
-    //         let filePath = '';
-    //         let imagePath = '';
-
-    //         if (selectedFile) {
-    //             filePath = await uploadFile(selectedFile);
-    //         }
-
-    //         if (selectedImage) {
-    //             imagePath = await uploadImage(selectedImage);
-    //         }
-
-    //         const response = await fetch('/api/books', {
-    //             method: 'POST',
-    //             headers: { 'Content-Type': 'application/json' },
-    //             body: JSON.stringify({ ...newBook, userId, path: filePath, image: imagePath }),
-    //         });
-
-    //         if (response.ok) {
-    //             const book: Book = await response.json();
-    //             setBooks(prevBooks => [...prevBooks, book]);
-    //             setNewBook({
-    //                 title: '',
-    //                 description: '',
-    //                 publishedAt: new Date().toISOString(),
-    //                 authorname: '',
-    //                 categoryId: 0,
-    //                 downloads: 0,
-    //                 image: '',
-    //                 size: 0,
-    //                 path: ''
-    //             });
-    //             setSelectedFile(null);
-    //             setSelectedImage(null);
-    //         } else {
-    //             throw new Error('Failed to add book');
-    //         }
-    //     } catch (error) {
-    //         console.error('Error adding book:', error);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
 
     const handleDeleteBook = async (bookId: number) => {
         const confirmDelete = window.confirm('Are you sure you want to delete this book?');

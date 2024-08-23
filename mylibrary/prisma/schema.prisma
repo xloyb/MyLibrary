@@ -32,7 +32,7 @@ model User {
 model Category {
   id        Int      @id @default(autoincrement())
   name      String   @unique
-  servername String?
+  servername String? @unique
   image     String?
   books     Book[]
 }

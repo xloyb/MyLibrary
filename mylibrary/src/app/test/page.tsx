@@ -1,9 +1,15 @@
-import React from 'react'
+import TestBooksPage from '@/components/Home/Books';
+import { getAllBooksWithCategory } from '@/lib/book';
+import React from 'react';
 
-const TestPage = () => {
+const TestPage = async () => {
+  const books = await getAllBooksWithCategory();
+
   return (
-    <div></div>
-  )
-}
+    <div>
+      <TestBooksPage books={books} />
+    </div>
+  );
+};
 
-export default TestPage
+export default TestPage;

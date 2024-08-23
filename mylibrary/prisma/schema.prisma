@@ -29,11 +29,10 @@ model User {
   books       Book[]   @relation("UserBooks")
 }
 
-
-
 model Category {
   id        Int      @id @default(autoincrement())
   name      String   @unique
+  image     String?
   books     Book[]
 }
 

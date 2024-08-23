@@ -1,4 +1,3 @@
-import { updateBook } from "@/lib/book";
 import { Book } from "@prisma/client";
 import { useState } from "react";
 

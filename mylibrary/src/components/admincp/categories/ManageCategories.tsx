@@ -72,35 +72,38 @@ const uploadImage = async (file: File) => {
   }
 };
 
-
-  const handleAddCategory = async () => {
-    let imagePath = '';
-    if (selectedImage) {
-      imagePath = await uploadImage(selectedImage);
+const handleAddCategory = async () => {
+  if (!newCategory.trim()) {
+    alert('Please fill in all the required fields.');
+    return; 
   }
 
-    if (newCategory.trim()) {
-      setLoading(true);
-      try {
-        const response = await fetch('/api/categories', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ clerkUserId: user?.id, name: newCategory, image: imagePath }),
-        });
-        if (response.ok) {
-          const category = await response.json();
-          setCategories((prevCategories) => [...prevCategories, category]);
-          setNewCategory('');
-        } else {
-          console.error('Failed to add category');
-        }
-      } catch (error) {
-        console.error('Error adding category:', error);
-      } finally {
-        setLoading(false);
-      }
+  let imagePath = '';
+  if (selectedImage) {
+    imagePath = await uploadImage(selectedImage);
+  }
+
+  setLoading(true);
+  try {
+    const response = await fetch('/api/categories', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ clerkUserId: user?.id, name: newCategory, image: imagePath }),
+    });
+    if (response.ok) {
+      const category = await response.json();
+      setCategories((prevCategories) => [...prevCategories, category]);
+      setNewCategory('');
+    } else {
+      console.error('Failed to add category');
     }
-  };
+  } catch (error) {
+    console.error('Error adding category:', error);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const handleEditCategory = async () => {
     if (editCategoryName.trim() && editCategoryId !== null) {

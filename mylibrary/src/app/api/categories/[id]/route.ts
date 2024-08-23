@@ -17,14 +17,19 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     }
   }
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+  export async function PUT(request: Request, { params }: { params: { id: string } }) {
     const { id } = params;
     const { name, image } = await request.json();
+  
+    const servername = name
+      .trim() 
+      .toLowerCase() 
+      .replace(/\s+/g, '-'); 
   
     try {
       const updatedCategory = await prisma.category.update({
         where: { id: parseInt(id, 10) },
-        data: { name },
+        data: { name, image, servername }, 
       });
       return NextResponse.json(updatedCategory);
     } catch (error) {

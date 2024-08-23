@@ -11,6 +11,8 @@ const ManageCategories = () => {
   const [isMod, setIsMod] = useState(false);
   const [editCategoryId, setEditCategoryId] = useState<number | null>(null);
   const [editCategoryName, setEditCategoryName] = useState('');
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -48,14 +50,42 @@ const ManageCategories = () => {
     fetchUserRoles();
   }, [user]);
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setSelectedImage(file);
+};
+
+const uploadImage = async (file: File) => {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response = await fetch('/api/upload', {
+      method: 'POST',
+      body: formData
+  });
+
+  if (response.ok) {
+      const { filename } = await response.json();
+      return filename;
+  } else {
+      throw new Error('Failed to upload file');
+  }
+};
+
+
   const handleAddCategory = async () => {
+    let imagePath = '';
+    if (selectedImage) {
+      imagePath = await uploadImage(selectedImage);
+  }
+
     if (newCategory.trim()) {
       setLoading(true);
       try {
         const response = await fetch('/api/categories', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ clerkUserId: user?.id, name: newCategory }),
+          body: JSON.stringify({ clerkUserId: user?.id, name: newCategory, image: imagePath }),
         });
         if (response.ok) {
           const category = await response.json();
@@ -140,6 +170,18 @@ const ManageCategories = () => {
               onChange={(e) => setNewCategory(e.target.value)} 
               disabled={loading}
             />
+            <div className="form-control">
+                <label className="label">
+                    <span className="label-text">Image</span>
+                </label>
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="file-input file-input-bordered w-full"
+                    required
+                />
+            </div>
             <button 
               className="btn btn-primary ml-2" 
               onClick={handleAddCategory}

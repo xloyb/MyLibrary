@@ -444,9 +444,12 @@
 // export default ManageBooks;
 
 
+
+
 "use client";
 import { useAuth } from '@clerk/nextjs';
 import React, { useState, useEffect } from 'react';
+import UpdateBookModal from './UpdateModal';
 
 type Category = {
     id: number;
@@ -487,9 +490,17 @@ const ManageBooks: React.FC = () => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [uploadError, setUploadError] = useState<string | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+const [selectedBook, setSelectedBook] = useState<Book | null>(null);
 
     const { userId: clerkUserId } = useAuth();
 
+
+    const openUpdateModal = (book: Book) => {
+        setSelectedBook(book);
+        setIsModalOpen(true);
+    };
+    
     useEffect(() => {
         const fetchUserId = async () => {
             if (!clerkUserId) {
@@ -625,74 +636,8 @@ const ManageBooks: React.FC = () => {
         }
     };
 
-    // const handleAddBook = async () => {
-    //     // Input validation: Check for empty or null fields
-    //     if (
-    //         !newBook.title.trim() || 
-    //         !newBook.description.trim() || 
-    //         !newBook.authorname.trim() || 
-    //         newBook.categoryId === 0 || 
-    //         !selectedFile || 
-    //         !selectedImage
-    //     ) {
-    //         alert('Please fill in all the required fields.');
-    //         return;
-    //     }
-
-    //     if (!userId) {
-    //         console.error('User ID is not available');
-    //         return;
-    //     }
-
-    //     setLoading(true);
-    //     setUploadError(null); // Reset error state
-
-    //     try {
-    //         let filePath = '';
-    //         let imagePath = '';
-
-    //         if (selectedFile) {
-    //             filePath = await uploadFile(selectedFile);
-    //         }
-
-    //         if (selectedImage) {
-    //             imagePath = await uploadImage(selectedImage);
-    //         }
-
-    //         const response = await fetch('/api/books', {
-    //             method: 'POST',
-    //             headers: { 'Content-Type': 'application/json' },
-    //             body: JSON.stringify({ ...newBook, userId, path: filePath, image: imagePath }),
-    //         });
-
-    //         if (response.ok) {
-    //             const book: Book = await response.json();
-    //             setBooks(prevBooks => [...prevBooks, book]);
-    //             setNewBook({
-    //                 title: '',
-    //                 description: '',
-    //                 publishedAt: new Date().toISOString(),
-    //                 authorname: '',
-    //                 categoryId: 0,
-    //                 downloads: 0,
-    //                 image: '',
-    //                 size: 0,
-    //                 path: ''
-    //             });
-    //             setSelectedFile(null);
-    //             setSelectedImage(null);
-    //             alert('Book added successfully!');
-    //         } else {
-    //             throw new Error('Failed to add book');
-    //         }
-    //     } catch (error) {
-    //         console.error('Error adding book:', error);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
-
     const handleAddBook = async () => {
+        // Input validation: Check for empty or null fields
         if (
             !newBook.title.trim() || 
             !newBook.description.trim() || 
@@ -704,40 +649,33 @@ const ManageBooks: React.FC = () => {
             alert('Please fill in all the required fields.');
             return;
         }
-    
+
         if (!userId) {
             console.error('User ID is not available');
             return;
         }
-    
+
         setLoading(true);
-        setUploadError(null); 
-    
+        setUploadError(null); // Reset error state
+
         try {
             let filePath = '';
             let imagePath = '';
-    
+
             if (selectedFile) {
                 filePath = await uploadFile(selectedFile);
             }
-    
+
             if (selectedImage) {
                 imagePath = await uploadImage(selectedImage);
             }
-            const formattedPublishedAt = new Date(newBook.publishedAt).toISOString();
-    
+
             const response = await fetch('/api/books', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    ...newBook, 
-                    userId, 
-                    path: filePath, 
-                    image: imagePath,
-                    publishedAt: formattedPublishedAt 
-                }),
+                body: JSON.stringify({ ...newBook, userId, path: filePath, image: imagePath }),
             });
-    
+
             if (response.ok) {
                 const book: Book = await response.json();
                 setBooks(prevBooks => [...prevBooks, book]);
@@ -764,7 +702,6 @@ const ManageBooks: React.FC = () => {
             setLoading(false);
         }
     };
-    
 
 
     const handleDeleteBook = async (bookId: number) => {
@@ -944,6 +881,12 @@ const ManageBooks: React.FC = () => {
                             <td>{categories.find(category => category.id === book.categoryId)?.name}</td>
                             <td>{book.downloads}</td>
                             <td>
+                            <button
+                                    className="btn btn-xs btn-primary"
+                                    onClick={() => openUpdateModal(book)}
+                                >
+                                    Edit
+                                </button>
                                 <button
                                     className="btn btn-xs btn-danger"
                                     onClick={() => handleDeleteBook(book.id)}
@@ -956,6 +899,26 @@ const ManageBooks: React.FC = () => {
                 </tbody>
             </table>
         </div>
+        {isModalOpen && selectedBook && (
+    <UpdateBookModal
+        book={selectedBook}
+        onClose={() => setIsModalOpen(false)}
+        onUpdate={(updatedBook) => {
+            setBooks(books.map(book => 
+                book.id === updatedBook.id
+                    ? {
+                        ...updatedBook,
+                        description: updatedBook.description ?? "",  
+                        authorname: updatedBook.authorname ?? "",    
+                        image: updatedBook.image ?? "",              
+                        size: updatedBook.size ?? 0 
+                    }
+                    : book
+            ));
+        }}
+    />
+)}
+
     </div>
 
     );

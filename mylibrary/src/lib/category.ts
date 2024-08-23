@@ -2,10 +2,10 @@ import prisma from './client';
 
 
 // Create a new category
-export async function createCategory(name: string) {
+export async function createCategory(name: string, image: string) {
     try {
       const category = await prisma.category.create({
-        data: { name },
+        data: { name, image },
       });
       return category;
     } catch (error) {

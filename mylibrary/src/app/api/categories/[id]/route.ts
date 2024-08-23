@@ -19,7 +19,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
 
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
     const { id } = params;
-    const { name } = await request.json();
+    const { name, image } = await request.json();
   
     try {
       const updatedCategory = await prisma.category.update({

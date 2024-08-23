@@ -2,18 +2,35 @@ import prisma from './client';
 
 
 // Create a new category
+// export async function createCategory(name: string, image: string) {
+//     try {
+//       const category = await prisma.category.create({
+//         data: { name, image },
+//       });
+//       return category;
+//     } catch (error) {
+//       const err = error as Error;
+//       throw new Error(`Failed to create category: ${err.message}`);
+//     }
+//   }
+
+
 export async function createCategory(name: string, image: string) {
-    try {
-      const category = await prisma.category.create({
-        data: { name, image },
-      });
-      return category;
-    } catch (error) {
-      // Cast error to Error type
-      const err = error as Error;
-      throw new Error(`Failed to create category: ${err.message}`);
-    }
+  const servername = name
+    .trim() 
+    .toLowerCase() 
+    .replace(/\s+/g, '-'); 
+
+  try {
+    const category = await prisma.category.create({
+      data: { name, image, servername },
+    });
+    return category;
+  } catch (error) {
+    const err = error as Error;
+    throw new Error(`Failed to create category: ${err.message}`);
   }
+}
 
 
 

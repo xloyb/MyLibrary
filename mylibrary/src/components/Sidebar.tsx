@@ -1,15 +1,16 @@
-"use client"
+
 
 
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import Link from 'next/link';
+import SidebarCategories from './categories/SidebarCategories';
 
 
 
 const staticSettings = {
   sitename: "MyLibrary",
-//   logo: '/icon.png'
+  //   logo: '/icon.png'
 };
 
 const Sidebar = () => {
@@ -22,14 +23,14 @@ const Sidebar = () => {
         </div>
         <div className="drawer-side">
           <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-          <ul className="menu bg-base-100 text-base-content min-h-full w-80 p-4 flex flex-col justify-between">
+          <ul className="menu bg-base-100 text-base-content min-h-full w-80 p-4 flex flex-col ">
             <li className="mb-2 font-semibold text-xl">
               <Link href={'/c'}>
-                {/* <img src={staticSettings.logo} alt="Discord Keeper Logo" width={30} height={30} /> */}
+                <img src='https://mydevify.com/assets/xLoyMybb.5944be68.png' alt="MyLibrary by MyDevify.com" width={30} height={30} /> MyDevify.com
               </Link>
             </li>
             {/* Sidebar content here */}
-            
+          <SidebarCategories />
           </ul>
         </div>
       </div>

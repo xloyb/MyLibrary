@@ -5,10 +5,31 @@ import Link from "next/link";
 import { FaCircleRight } from "react-icons/fa6";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import ThemeToggle from "./ThemeToggle";
-import { ClerkLoaded, ClerkLoading, SignedIn } from "@clerk/nextjs";
+import { ClerkLoaded, ClerkLoading, SignedIn, useAuth } from "@clerk/nextjs";
 import { SignedOut, UserButton } from "@clerk/clerk-react";
+import { useEffect, useState } from "react";
+import { isTeam } from "@/lib/auth";
 
 const Navbar = () => {
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isTeamMember, setIsTeamMember] = useState<boolean | null>(null);
+
+  const { userId: clerkUserId } = useAuth();
+
+  useEffect(() => {
+    const checkTeamStatus = async () => {
+      if(clerkUserId){
+        const Adminresult = await isTeam(clerkUserId);
+        setIsAdmin(Adminresult);
+        const Teamresult = await isTeam(clerkUserId);
+        setIsTeamMember(Teamresult);
+      }
+    };
+
+    checkTeamStatus();
+  }, [clerkUserId]);
+  
+
   const sitename = "MyLibrary";
 
   return (
@@ -42,6 +63,18 @@ const Navbar = () => {
               <li>
                 <a href="/c">Dashboard</a>
               </li>
+              <SignedIn>
+
+
+             {isAdmin &&  <li>
+                <a href="/c">That Mother fucker is Admin</a>
+              </li>}
+
+              {isTeamMember &&  <li>
+                <a href="/c">That Mother fucker is Team Member</a>
+              </li>}
+              </SignedIn>
+              
             </ul>
           </div>
 
@@ -62,7 +95,7 @@ const Navbar = () => {
           </ClerkLoading>
           <ClerkLoaded>
             <SignedIn>
-              <div className="dropdown dropdown-end">
+              {/* <div className="dropdown dropdown-end">
                 <div tabIndex={0} role="button" className="mr-2">
                   <MdOutlineAdminPanelSettings className="h-7 w-7" />
                 </div>
@@ -74,19 +107,13 @@ const Navbar = () => {
                   <li>test</li>
                   <li>test</li>
                 </ul>
-              </div>
+              </div> */}
               <UserButton />
             </SignedIn>
             <SignedOut>
               <Link href={"/sign-in"}>Login/Register</Link>
             </SignedOut>
           </ClerkLoaded>
-
-          {/* Static login/register link */}
-          {/* <div className="flex items-center gap-2 text-sm">
-                        <Image src="/img/login.png" alt="" width={20} height={20} />
-                        <Link href="/sign-in">Login/Register</Link>
-                    </div> */}
         </div>
       </div>
     </div>

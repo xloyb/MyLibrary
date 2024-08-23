@@ -5,7 +5,7 @@ import Image from 'next/image';
 import React from 'react';
 
 const Categories = ({ categories }: { categories: Category[] }) => {
-  console.log(categories)
+  // console.log(categories)
   return (
     <div className="bg-base-100 card mx-6 mt-5 md:pt-4 px-6">
       <div className="text-xl font-semibold inline-block">MyDevify.com Library</div>

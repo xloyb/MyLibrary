@@ -2,6 +2,8 @@ import { getAllCategories } from "@/lib/category";
 import { Category } from "@prisma/client";
 import Link from "next/link";
 import React from "react";
+import { FaBookOpen } from "react-icons/fa";
+import { GiBlackBook } from "react-icons/gi";
 
 const SidebarCategories = async () => {
   let categories: Category[] = [];
@@ -9,7 +11,7 @@ const SidebarCategories = async () => {
   try {
     categories = await getAllCategories();
   } catch (error) {
-    console.error('Failed to fetch categories:', error);
+    console.error("Failed to fetch categories:", error);
   }
 
   return (
@@ -18,7 +20,9 @@ const SidebarCategories = async () => {
         {categories.map((category) => (
           <Link key={category.id} href={`/${category.servername}`}>
             <li>
-              {category.name}
+              <span>
+                <GiBlackBook /> {category.name}
+              </span>
             </li>
           </Link>
         ))}

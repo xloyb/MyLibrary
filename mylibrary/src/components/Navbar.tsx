@@ -9,26 +9,10 @@ import { ClerkLoaded, ClerkLoading, SignedIn, useAuth } from "@clerk/nextjs";
 import { SignedOut, UserButton } from "@clerk/clerk-react";
 import { useEffect, useState } from "react";
 import { isTeam } from "@/lib/auth";
+import TeamStatusChecker from "./Home/TeamStatusChecker";
 
 const Navbar = () => {
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isTeamMember, setIsTeamMember] = useState<boolean | null>(null);
-
-  const { userId: clerkUserId } = useAuth();
-
-  useEffect(() => {
-    const checkTeamStatus = async () => {
-      if(clerkUserId){
-        const Adminresult = await isTeam(clerkUserId);
-        setIsAdmin(Adminresult);
-        const Teamresult = await isTeam(clerkUserId);
-        setIsTeamMember(Teamresult);
-      }
-    };
-
-    checkTeamStatus();
-  }, [clerkUserId]);
-  
+  const userId = useAuth()
 
   const sitename = "MyLibrary";
 
@@ -64,15 +48,7 @@ const Navbar = () => {
                 <a href="/c">Dashboard</a>
               </li>
               <SignedIn>
-
-
-             {isAdmin &&  <li>
-                <a href="/c">That Mother fucker is Admin</a>
-              </li>}
-
-              {isTeamMember &&  <li>
-                <a href="/c">That Mother fucker is Team Member</a>
-              </li>}
+              {/* <TeamStatusChecker/> */}
               </SignedIn>
               
             </ul>

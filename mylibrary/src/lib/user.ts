@@ -2,6 +2,7 @@ import prisma from './client';
 
 // Get user by Clerk user ID
 export async function getUserByClerkUserId(clerkuserid: string) {
+  console.log("clerkuserid:nn",clerkuserid)
   try {
     const user = await prisma.user.findUnique({
       where: { clerkuserid },
@@ -19,7 +20,7 @@ export async function getUserByClerkUserId(clerkuserid: string) {
     return user;
   } catch (error) {
     const err = error as Error;
-    throw new Error(`Failed to retrieve user with Clerk user ID ${clerkuserid}: ${err.message}`);
+    throw new Error(`Failed to retrieve user with Clerk user ID ${clerkuserid}`);
   }
 }
 

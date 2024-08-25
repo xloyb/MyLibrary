@@ -1,11 +1,10 @@
 import prisma from './client';
 
-// Get user by Clerk user ID
 export async function getUserByClerkUserId(clerkuserid: string) {
-  console.log("clerkuserid:nn",clerkuserid)
+  console.log("Fetching user with Clerk user ID:", clerkuserid);  // Log clerkuserid
   try {
     const user = await prisma.user.findUnique({
-      where: { clerkuserid },
+      where: { clerkuserid },  // Exact match on clerkuserid
       select: {
         id: true,
         email: true,
@@ -17,12 +16,21 @@ export async function getUserByClerkUserId(clerkuserid: string) {
         updatedAt: true,
       },
     });
+
+    console.log('Query result:', user);  // Log the result
+
+    if (!user) {
+      throw new Error(`No user found with Clerk user ID ${clerkuserid}`);
+    }
+
     return user;
   } catch (error) {
-    const err = error as Error;
+    console.error('Error details:', error);  // Log the error object
     throw new Error(`Failed to retrieve user with Clerk user ID ${clerkuserid}`);
   }
 }
+
+
 
 // Update user by Clerk user ID, allowing updates for isAdmin and isMod fields
 export async function updateUserByClerkUserId(

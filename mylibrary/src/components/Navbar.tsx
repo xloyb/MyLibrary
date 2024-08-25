@@ -9,7 +9,7 @@ import { ClerkLoaded, ClerkLoading, SignedIn, useAuth } from "@clerk/nextjs";
 import { SignedOut, UserButton } from "@clerk/clerk-react";
 import { useEffect, useState } from "react";
 import { isTeam } from "@/lib/auth";
-import TeamStatusChecker from "./Home/TeamStatusChecker";
+// import { UserStatus } from "./UserStatus";
 
 const Navbar = () => {
   const userId = useAuth()
@@ -47,6 +47,7 @@ const Navbar = () => {
               <li>
                 <a href="/c">Dashboard</a>
               </li>
+              {/* <UserStatus/> */}
               <SignedIn>
               {/* <TeamStatusChecker/> */}
               </SignedIn>

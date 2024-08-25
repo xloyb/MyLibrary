@@ -59,7 +59,7 @@
 // export default BooksPage;
 
 import { getBooksByCategoryServername } from '@/lib/book';
-import { Book } from '@prisma/client';
+import { book } from '@prisma/client';
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -73,7 +73,7 @@ interface BooksPageProps {
 const BooksPage: React.FC<BooksPageProps> = async ({ params }) => {
   const { servername } = params;
 
-  let books: Book[] = [];
+  let books: book[] = [];
 
   try {
     books = await getBooksByCategoryServername(servername);

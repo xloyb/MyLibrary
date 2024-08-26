@@ -1,10 +1,10 @@
 "use client"; 
-import { Category } from '@prisma/client';
+import { category } from '@prisma/client';
 import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
 
-const Categories = ({ categories }: { categories: Category[] }) => {
+const Categories = ({ categories }: { categories: category[] }) => {
   // console.log(categories)
   return (
     <div className="bg-base-100 card mx-6 mt-5 md:pt-4 px-6">
@@ -31,7 +31,7 @@ const Categories = ({ categories }: { categories: Category[] }) => {
                 <h2 className="card-title">{category.name}</h2>
                 <p></p>
                 <div className="card-actions justify-end">
-                  <Link href={`/c/${category.id}`}>
+                  <Link href={`/${category.servername}`}>
                     <button className="btn btn-primary btn-xs sm:btn-sm md:btn-md">Browse Books</button>
                   </Link>
                 </div>

@@ -40,12 +40,12 @@
 
 
 
-import { Category } from '@prisma/client';
+import { category } from '@prisma/client';
 import { getAllCategories } from '@/lib/category';
 import Categories from '@/components/categories/Categories';
 
 const CategoriesPage = async () => {
-  let categories: Category[] = [];
+  let categories: category[] = [];
 
   try {
     categories = await getAllCategories();

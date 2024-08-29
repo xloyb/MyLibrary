@@ -20,7 +20,7 @@ const Categories = ({ categories }: { categories: category[] }) => {
                 <div style={{ width: '100%', position: 'relative', paddingBottom: '56.25%' }}>
                   {category.image && (
                     <Image
-                      src={category.image}
+                      src={`/images/books/${category.image}`}
                       alt={category.name}
                       layout="fill"
                       objectFit="contain" />

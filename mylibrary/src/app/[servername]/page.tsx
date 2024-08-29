@@ -96,7 +96,7 @@ const BooksPage: React.FC<BooksPageProps> = async ({ params }) => {
               <figure>
                 <div style={{ width: '100%', position: 'relative', paddingBottom: '56.25%' }}>
                   <Image
-                    src={book.image || '/default-book-cover.jpg'}
+                    src={`/images/books/${book.image || '/default-book-cover.jpg'}`}
                     alt={book.title}
                     layout="fill"
                     objectFit="contain"

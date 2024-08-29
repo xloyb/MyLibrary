@@ -589,7 +589,14 @@ const [selectedBook, setSelectedBook] = useState<Book | null>(null);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] || null;
-        setSelectedFile(file);
+        if (file) {
+            const fileSizeInMB = file.size / 1024 / 1024; 
+            setSelectedFile(file);
+            setNewBook(prevBook => ({
+                ...prevBook,
+                size: parseFloat(fileSizeInMB.toFixed(2)) 
+            }));
+        }
     };
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {

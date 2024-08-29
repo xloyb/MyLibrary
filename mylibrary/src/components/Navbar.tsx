@@ -53,7 +53,7 @@
 //                 {/* check if is iteam and isadmin here */}
 //               </SignedIn>
 //               </ClerkLoaded>
-              
+
 //             </ul>
 //           </div>
 
@@ -117,31 +117,31 @@ const Navbar = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isMod, setIsMod] = useState(false);
 
-      const { userId: clerkUserId } = useAuth();
+  const { userId: clerkUserId } = useAuth();
 
-      useEffect(() => {
-        const fetchUserRoles = async () => {
-          if (!clerkUserId) {
-            console.error("Clerk User ID is not available");
-            return;
-          }
-    
-          try {
-            const response = await fetch(`/api/userRoles?clerkUserId=${clerkUserId}`);
-            if (response.ok) {
-              const user = await response.json();
-              setIsAdmin(user.isAdmin);
-              setIsMod(user.isMod);
-            } else {
-              console.error("Failed to fetch user roles");
-            }
-          } catch (error) {
-            console.error("Error fetching user roles:", error);
-          }
-        };
-    
-        fetchUserRoles();
-      }, [clerkUserId]);
+  useEffect(() => {
+    const fetchUserRoles = async () => {
+      if (!clerkUserId) {
+        console.error("Clerk User ID is not available");
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/userRoles?clerkUserId=${clerkUserId}`);
+        if (response.ok) {
+          const user = await response.json();
+          setIsAdmin(user.isAdmin);
+          setIsMod(user.isMod);
+        } else {
+          console.error("Failed to fetch user roles");
+        }
+      } catch (error) {
+        console.error("Error fetching user roles:", error);
+      }
+    };
+
+    fetchUserRoles();
+  }, [clerkUserId]);
 
   const sitename = "MyLibrary";
 
@@ -181,12 +181,12 @@ const Navbar = () => {
                   {isAdmin && (
                     <li>
                       <Link href="/admincp">Admin Panel</Link>
-                      <li>
-                      <Link href="/admincp/categories">Categories</Link>
-                    </li>
-                    <li>
-                      <Link href="/admincp/books">Books</Link>
-                    </li>
+                      <span className="ml-4">
+                        <Link href="/admincp/categories">Categories</Link>
+                      </span>
+                      <span className="ml-4">
+                        <Link href="/admincp/books">Books</Link>
+                      </span>
                     </li>
                   )}
                   {isMod && (

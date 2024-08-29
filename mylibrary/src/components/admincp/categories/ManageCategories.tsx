@@ -173,7 +173,7 @@ const handleAddCategory = async () => {
               onChange={(e) => setNewCategory(e.target.value)} 
               disabled={loading}
             />
-            <div className="form-control">
+            
                 <label className="label">
                     <span className="label-text">Image</span>
                 </label>
@@ -184,7 +184,7 @@ const handleAddCategory = async () => {
                     className="file-input file-input-bordered w-full"
                     required
                 />
-            </div>
+           
             <button 
               className="btn btn-primary ml-2" 
               onClick={handleAddCategory}

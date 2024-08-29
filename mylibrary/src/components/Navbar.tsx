@@ -180,7 +180,13 @@ const Navbar = () => {
                 <SignedIn>
                   {isAdmin && (
                     <li>
-                      <Link href="/admin">Admin Panel</Link>
+                      <Link href="/admincp">Admin Panel</Link>
+                      <li>
+                      <Link href="/admincp/categories">Categories</Link>
+                    </li>
+                    <li>
+                      <Link href="/admincp/books">Books</Link>
+                    </li>
                     </li>
                   )}
                   {isMod && (

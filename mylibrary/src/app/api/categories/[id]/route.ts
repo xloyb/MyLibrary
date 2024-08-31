@@ -19,7 +19,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
 
   export async function PUT(request: Request, { params }: { params: { id: string } }) {
     const { id } = params;
-    const { name, image } = await request.json();
+    const { name, image,language } = await request.json();
   
     const servername = name
       .trim() 
@@ -29,7 +29,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     try {
       const updatedCategory = await prisma.category.update({
         where: { id: parseInt(id, 10) },
-        data: { name, image, servername }, 
+        data: { name, image,language, servername }, 
       });
       return NextResponse.json(updatedCategory);
     } catch (error) {

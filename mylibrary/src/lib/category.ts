@@ -59,6 +59,37 @@ export async function getAllCategories() {
     }
   }
 
+
+
+  export async function getAllEnglishCategories() {
+    try {
+      const categories = await prisma.category.findMany({
+        where: {
+          language: 'en'
+        }
+      });
+      return categories;
+    } catch (error) {
+      const err = error as Error;
+      throw new Error(`Failed to retrieve English categories: ${err.message}`);
+    }
+  }
+  
+  export async function getAllArabicCategories() {
+    try {
+      const categories = await prisma.category.findMany({
+        where: {
+          language: 'ar'
+        }
+      });
+      return categories;
+    } catch (error) {
+      const err = error as Error;
+      throw new Error(`Failed to retrieve Arabic categories: ${err.message}`);
+    }
+  }
+  
+
   // Update a category by its ID
 export async function updateCategory(id: number, name: string) {
     try {

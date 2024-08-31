@@ -13,13 +13,13 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { clerkUserId, name, image } = await request.json(); 
+    const { clerkUserId, name, image, language } = await request.json(); 
 
     if (!(await isAdmin(clerkUserId))) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 
-    const newCategory = await createCategory(name, image);
+    const newCategory = await createCategory(name, image, language);
     return NextResponse.json(newCategory, { status: 201 }); 
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create category' }, { status: 500 });

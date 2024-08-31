@@ -15,7 +15,7 @@ import prisma from './client';
 //   }
 
 
-export async function createCategory(name: string, image: string) {
+export async function createCategory(name: string, image: string, language:string) {
   const servername = name
     .trim() 
     .toLowerCase() 
@@ -23,7 +23,7 @@ export async function createCategory(name: string, image: string) {
 
   try {
     const category = await prisma.category.create({
-      data: { name, image, servername },
+      data: { name, image, servername, language },
     });
     return category;
   } catch (error) {

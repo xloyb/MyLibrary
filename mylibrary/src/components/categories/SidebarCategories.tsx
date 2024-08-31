@@ -1,12 +1,12 @@
 import { getAllCategories } from "@/lib/category";
-import { Category } from "@prisma/client";
+import { category } from "@prisma/client";
 import Link from "next/link";
 import React from "react";
 import { FaBookOpen } from "react-icons/fa";
 import { GiBlackBook } from "react-icons/gi";
 
 const SidebarCategories = async () => {
-  let categories: Category[] = [];
+  let categories: category[] = [];
 
   try {
     categories = await getAllCategories();

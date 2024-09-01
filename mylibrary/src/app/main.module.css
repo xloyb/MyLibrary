@@ -43,3 +43,8 @@
     align-items: center;
     justify-content: space-between;
   }
+
+  .rtl_direction {
+    direction: rtl;
+    text-align: right; /* Ensure text alignment is also correct for RTL */
+  }

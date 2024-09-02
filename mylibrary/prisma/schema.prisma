@@ -29,6 +29,7 @@ model book {
 model category {
   id         Int     @id @default(autoincrement())
   name       String  @unique(map: "Category_name_key")
+  description String?
   image      String?
   language   String?
   servername String? @unique(map: "Category_servername_key")

@@ -63,6 +63,8 @@ import { book } from '@prisma/client';
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import SlideCaptchaModal from '@/components/Captcha/SlideCaptcha';
+import SlideImageCaptcha from '@/components/Captcha/SlideImageCaptcha';
 
 interface BooksPageProps {
   params: {
@@ -113,6 +115,8 @@ const BooksPage: React.FC<BooksPageProps> = async ({ params }) => {
                   <Link href={`/c/`}>
                     <button className="btn btn-primary btn-xs sm:btn-sm md:btn-md">Read Online or Download</button>
                   </Link>
+                  <SlideCaptchaModal/>
+                  <SlideImageCaptcha/>
                 </div>
               </div>
             </div>

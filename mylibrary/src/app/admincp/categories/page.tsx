@@ -1,12 +1,53 @@
+
+"use client";
+import DeniedAccessMotherFucker from "@/components/CustomPages/403";
+import Loading from "@/components/Loading";
+import { useUser } from "@clerk/nextjs";
+import React, { useEffect, useState } from "react";
 import ManageCategories from '@/components/admincp/categories/ManageCategories'
-import React from 'react'
 
 const Categories = () => {
+  
+  const { user } = useUser();
+
+  const [loading, setLoading] = useState<boolean>(true);
+  // const [isAdminMember, setisAdminMember] = useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchUserRoles = async () => {
+      if (user?.id) {
+        try {
+          const response = await fetch(`/api/userRoles?clerkUserId=${user.id}`);
+          if (response.ok) {
+            const fetchedUser = await response.json();
+            setIsAdmin(fetchedUser?.isAdmin || false);
+            setLoading(false);
+          } else {
+            console.error('Failed to fetch user roles');
+          }
+        } catch (error) {
+          console.error('Error fetching user roles:', error);
+        }
+      }
+    };
+    
+    fetchUserRoles();
+  }, [user]);
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <div>
-        <ManageCategories/>
+      {isAdmin ? <ManageCategories/> : <DeniedAccessMotherFucker />}
     </div>
-  )
-}
+  );
+};
+
+
 
 export default Categories
+
+

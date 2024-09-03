@@ -19,7 +19,7 @@ const SidebarCategories = async () => {
 
   return (
     <div className="bg-base-100 card p-6 mx-auto mt-5 w-full max-w-lg">
-      <ul className="menu rounded-box w-56">
+      {/* <ul className="menu rounded-box w-56">
         {engcategories.map((category) => (
           <Link key={category.id} href={`/${category.servername}`}>
             <li>
@@ -29,7 +29,7 @@ const SidebarCategories = async () => {
             </li>
           </Link>
         ))}
-      </ul>
+      </ul> */}
 
       <div className="menu w-64 min-h-full">
         <div>
@@ -99,7 +99,7 @@ const SidebarCategories = async () => {
             {arcategories.map((category) => (
               <Link key={category.id} href={`/${category.servername}`}>
                 <li>
-                  <span>
+                  <span className={`${styles.rtl_direction}`}>
                     <GiBlackBook className="mr-1" /> {category.name}
                   </span>
                 </li>

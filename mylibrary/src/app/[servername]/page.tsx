@@ -92,7 +92,7 @@ const BooksPage: React.FC<BooksPageProps> = async ({ params }) => {
       <div className="divider mt-2"></div>
 
       {books.length > 0 ? (
-        <div className="content-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 bg-base-200 card mt-5 md:pt-4">
+        <div className="content-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 card mt-5 md:pt-4">
           {books.map((book) => (
             <div key={book.id} className="mt-6 card card-compact shadow-xl w-auto m-2 bg-base-100">
               <figure>

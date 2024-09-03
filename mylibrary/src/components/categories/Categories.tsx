@@ -12,7 +12,7 @@ const Categories = ({ categories }: { categories: category[] }) => {
       <div className='text-gray-500 text-xs'>Discover your next great read with ease! Filter books by category and download as many as you want—no restrictions. With MyDevify.com, accessing IT eBooks is as simple as a click.</div>
       <div className="divider mt-2"></div>
 
-      <div className={`content-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 bg-base-200 card mt-5 md:pt-4`}>
+      <div className={`content-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 card mt-5 md:pt-4`}>
         {categories.length > 0 ? (
           categories.map((category) => (
             <div key={category.id} className="mt-6 card card-compact shadow-xl w-auto m-2 bg-base-100">

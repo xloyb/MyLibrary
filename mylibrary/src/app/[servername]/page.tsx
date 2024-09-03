@@ -118,8 +118,8 @@ const BooksPage: React.FC<BooksPageProps> = async ({ params }) => {
                   </Link>
                   {/* <SlideCaptchaModal/>
                   <SlideImageCaptcha/> */}
-<MyHcaptcha redirectLink={book.path} />
-</div>
+                  <MyHcaptcha redirectLink={`/books/MyDevify-pdf/${book.path}`} />
+                </div>
               </div>
             </div>
           ))}

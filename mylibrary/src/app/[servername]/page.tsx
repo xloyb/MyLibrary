@@ -1,4 +1,3 @@
-
 // import { getBooksByCategoryServername } from '@/lib/book';
 // import { Book } from '@prisma/client';
 // import React from 'react';
@@ -58,14 +57,14 @@
 
 // export default BooksPage;
 
-import { getBooksByCategoryServername } from '@/lib/book';
-import { book } from '@prisma/client';
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import SlideCaptchaModal from '@/components/Captcha/SlideCaptcha';
-import SlideImageCaptcha from '@/components/Captcha/SlideImageCaptcha';
-import MyHcaptcha from '@/components/Captcha/HCaptcha';
+import { getBooksByCategoryServername } from "@/lib/book";
+import { book } from "@prisma/client";
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import SlideCaptchaModal from "@/components/Captcha/SlideCaptcha";
+import SlideImageCaptcha from "@/components/Captcha/SlideImageCaptcha";
+import MyHcaptcha from "@/components/Captcha/HCaptcha";
 
 interface BooksPageProps {
   params: {
@@ -81,25 +80,40 @@ const BooksPage: React.FC<BooksPageProps> = async ({ params }) => {
   try {
     books = await getBooksByCategoryServername(servername);
   } catch (error) {
-    console.error('Failed to fetch books:', error);
+    console.error("Failed to fetch books:", error);
   }
 
   return (
     <div className="bg-base-100 card mx-6 mt-5 md:pt-4 px-6">
-      <div className="text-xl font-semibold inline-block">MyDevify.com Library</div>
-      <div className='text-gray-500 text-xs'>
-        Discover your next great read with ease! Filter books by category and download as many as you want—no restrictions. With MyDevify.com, accessing IT eBooks is as simple as a click.
+      <div className="text-xl font-semibold inline-block">
+        MyDevify.com Library
+      </div>
+      <div className="text-gray-500 text-xs">
+        Discover your next great read with ease! Filter books by category and
+        download as many as you want—no restrictions. With MyDevify.com,
+        accessing IT eBooks is as simple as a click.
       </div>
       <div className="divider mt-2"></div>
 
       {books.length > 0 ? (
         <div className="content-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 card mt-5 md:pt-4">
           {books.map((book) => (
-            <div key={book.id} className="mt-6 card card-compact shadow-xl w-auto m-2 bg-base-100">
+            <div
+              key={book.id}
+              className="mt-6 card card-compact shadow-xl w-auto m-2 bg-base-100"
+            >
               <figure>
-                <div style={{ width: '100%', position: 'relative', paddingBottom: '56.25%' }}>
+                <div
+                  style={{
+                    width: "100%",
+                    position: "relative",
+                    paddingBottom: "56.25%",
+                  }}
+                >
                   <Image
-                    src={`/images/books/${book.image || '/default-book-cover.jpg'}`}
+                    src={`/images/books/${
+                      book.image || "/default-book-cover.jpg"
+                    }`}
                     alt={book.title}
                     layout="fill"
                     objectFit="contain"
@@ -113,35 +127,25 @@ const BooksPage: React.FC<BooksPageProps> = async ({ params }) => {
                 <p className="text-gray-500">Published At: {book.publishedAt}</p>
                 <p className="text-gray-500">Size: {book.size} MB</p> */}
                 <div className="card-actions justify-end">
-                  <Link href={`/c/`}>
+                  {/* <Link href={`/c/`}>
                     <button className="btn btn-primary btn-xs sm:btn-sm md:btn-md">Read Online or Download</button>
-                  </Link>
+                  </Link> */}
                   {/* <SlideCaptchaModal/>
                   <SlideImageCaptcha/> */}
-                  
-
-
-
-
-
 
                   <div className="collapse collapse-plus border border-base-300">
-            <input type="checkbox" className="peer" />
+                    <input type="checkbox" className="peer" />
 
-            <div className="collapse-title flex items-center">
-              <span className="text-2xl mr-1" />
-              Download or Read Online
-            </div>
-            <div className="collapse-content">
-            <MyHcaptcha redirectLink={`/books/MyDevify-pdf/${book.path}`} />
-            </div>
-          </div>
-
-
-
-
-
-
+                    <div className="collapse-title flex items-center">
+                      <span className="text-2xl mr-1" />
+                      Download or Read Online
+                    </div>
+                    <div className="collapse-content">
+                      <MyHcaptcha
+                        redirectLink={`/books/MyDevify-pdf/${book.path}`}
+                      />
+                    </div>
+                  </div>
 
                   {/* <MyHcaptcha redirectLink={`/books/MyDevify-pdf/${book.path}`} /> */}
                 </div>

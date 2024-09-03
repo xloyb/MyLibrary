@@ -65,6 +65,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import SlideCaptchaModal from '@/components/Captcha/SlideCaptcha';
 import SlideImageCaptcha from '@/components/Captcha/SlideImageCaptcha';
+import MyHcaptcha from '@/components/Captcha/HCaptcha';
 
 interface BooksPageProps {
   params: {
@@ -108,15 +109,16 @@ const BooksPage: React.FC<BooksPageProps> = async ({ params }) => {
               <div className="card-body">
                 <h2 className="card-title">{book.title}</h2>
                 <p>{book.description}</p>
-                <p className="mt-2 text-gray-500">Author: {book.authorname}</p>
+                {/* <p className="mt-2 text-gray-500">Author: {book.authorname}</p>
                 <p className="text-gray-500">Published At: {book.publishedAt}</p>
-                <p className="text-gray-500">Size: {book.size} MB</p>
+                <p className="text-gray-500">Size: {book.size} MB</p> */}
                 <div className="card-actions justify-end">
                   <Link href={`/c/`}>
                     <button className="btn btn-primary btn-xs sm:btn-sm md:btn-md">Read Online or Download</button>
                   </Link>
-                  <SlideCaptchaModal/>
-                  <SlideImageCaptcha/>
+                  {/* <SlideCaptchaModal/>
+                  <SlideImageCaptcha/> */}
+                  <MyHcaptcha/>
                 </div>
               </div>
             </div>

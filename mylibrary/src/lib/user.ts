@@ -32,7 +32,7 @@ import prisma from './client';
 
 
 export async function getUserByClerkUserId(clerkuserid: string) {
-  console.log("Fetching user with Clerk user ID:", clerkuserid);  // Log clerkUserId
+  // console.log("Fetching user with Clerk user ID:", clerkuserid);  // Log clerkUserId
   try {
     const user = await prisma.user.findUnique({
       where: { clerkuserid },  

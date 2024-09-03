@@ -132,10 +132,8 @@ const BooksPage: React.FC<BooksPageProps> = async ({ params }) => {
                   </Link> */}
                   {/* <SlideCaptchaModal/>
                   <SlideImageCaptcha/> */}
-
                   <div className="collapse collapse-plus border border-base-300">
                     <input type="checkbox" className="peer" />
-
                     <div className="collapse-title flex items-center">
                       <span className="text-2xl mr-1" />
                       Download or Read Online
@@ -146,7 +144,6 @@ const BooksPage: React.FC<BooksPageProps> = async ({ params }) => {
                       />
                     </div>
                   </div>
-
                   {/* <MyHcaptcha redirectLink={`/books/MyDevify-pdf/${book.path}`} /> */}
                 </div>
               </div>

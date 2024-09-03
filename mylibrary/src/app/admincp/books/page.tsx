@@ -18,7 +18,7 @@ const BooksPage = () => {
           const response = await fetch(`/api/userRoles?clerkUserId=${user.id}`);
           if (response.ok) {
             const fetchedUser = await response.json();
-            setisTeamMember(fetchedUser?.isAdmin || false);
+            setisTeamMember(fetchedUser?.isAdmin || fetchedUser?.isMod || false);
             setLoading(false);
           } else {
             console.error('Failed to fetch user roles');

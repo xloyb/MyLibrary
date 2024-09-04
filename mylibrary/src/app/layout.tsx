@@ -66,6 +66,7 @@ import {
   SignedOut,
   UserButton
 } from '@clerk/nextjs'
+import Footer from '@/components/Footer';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -93,6 +94,7 @@ const Layout = ({ children }: LayoutProps) => {
             <div className="h-screen overflow-y-auto bg-base-200">
               {children}
             </div>
+        <Footer/>
           </div>
         </div>
       </body>

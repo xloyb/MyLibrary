@@ -41,7 +41,7 @@ model user {
   email       String   @unique(map: "User_email_key")
   password    String?
   createdAt   DateTime @default(now())
-  updatedAt   DateTime
+  updatedAt   DateTime @default(now())
   avatar      String?
   clerkuserid String   @unique(map: "User_clerkuserid_key")
   username    String?

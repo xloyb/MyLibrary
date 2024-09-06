@@ -1,7 +1,7 @@
-import { Book } from "@prisma/client";
+import { book } from "@prisma/client";
 import { useState } from "react";
 
-const UpdateBookModal: React.FC<{ book: Book; onClose: () => void; onUpdate: (updatedBook: Book) => void }> = ({ book, onClose, onUpdate }) => {
+const UpdateBookModal: React.FC<{ book: book; onClose: () => void; onUpdate: (updatedBook: book) => void }> = ({ book, onClose, onUpdate }) => {
     const [updatedBook, setUpdatedBook] = useState(book);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {

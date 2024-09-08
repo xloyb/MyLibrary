@@ -11,7 +11,7 @@ model book {
   id          Int      @id @default(autoincrement())
   title       String
   description String?  @unique(map: "Book_description_key")
-  publishedAt String
+  publishedAt DateTime?
   categoryId  Int
   userId      Int
   downloads   Int      @default(0)

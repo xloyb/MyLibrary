@@ -42,3 +42,7 @@ next-env.d.ts
 
 /public/temp/
 
+.htaccess
+
+ecosystem.config.js
+

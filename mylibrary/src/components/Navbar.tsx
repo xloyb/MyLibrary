@@ -105,13 +105,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { FaCircleRight } from "react-icons/fa6";
+import { FaCircleRight, FaUser } from "react-icons/fa6";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import ThemeToggle from "./ThemeToggle";
 import { ClerkLoaded, ClerkLoading, SignedIn, useAuth } from "@clerk/nextjs";
 import { SignedOut, UserButton } from "@clerk/clerk-react";
 import { useEffect, useState } from "react";
 import { isTeam } from "@/lib/auth";
+import DropdownMenu from "./DropDown";
 
 const Navbar = () => {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -149,7 +150,7 @@ const Navbar = () => {
     <div>
       <div className="navbar bg-base-100">
         <div className="navbar-start">
-          <div className="dropdown">
+          <div className="dropdown hidden lg:block">
             <div tabIndex={0} role="button" className="mr-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -199,8 +200,24 @@ const Navbar = () => {
             </ul>
           </div>
 
-          <label htmlFor="my-drawer-2" className=" drawer-button lg:hidden">
-            <FaCircleRight />
+          <label htmlFor="my-drawer-2" className="drawer-button md:hidden">
+            {/* <FaCircleRight /> */}
+            <div tabIndex={0} role="button" className="mr-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h7"
+                />
+              </svg>
+            </div>
           </label>
         </div>
         <div className="navbar-center">
@@ -216,7 +233,8 @@ const Navbar = () => {
               <UserButton />
             </SignedIn>
             <SignedOut>
-              <Link href={"/sign-in"}>Login/Register</Link>
+              <Link href={"/sign-in"}><FaUser />
+              </Link>
             </SignedOut>
           </ClerkLoaded>
         </div>

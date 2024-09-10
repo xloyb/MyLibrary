@@ -1,3 +1,5 @@
+
+
 import { getAllArabicCategories, getAllEnglishCategories } from "@/lib/category";
 import { category } from "@prisma/client";
 import Link from "next/link";
@@ -8,6 +10,7 @@ import { GiBlackBook } from "react-icons/gi";
 const SidebarCategories = async () => {
   let engcategories: category[] = [];
   let arcategories: category[] = [];
+
 
 
   try {
@@ -42,8 +45,25 @@ const SidebarCategories = async () => {
             </div>
             <div className="collapse-content">
               <ul>
-                {engcategories.map((category) => (
+                {/* {engcategories.map((category) => (
                   <Link key={category.id} href={`/${category.servername}`}>
+                    <label htmlFor="my-drawer-2"> 
+                      <li>
+                        <span>
+                          <GiBlackBook /> {category.name}
+                        </span>
+                      </li>
+                    </label>
+                  </Link>
+                ))} */}
+
+                {engcategories.map((category) => (
+                  <Link key={category.id} href={`/${category.servername}`} onClick={() => {
+                    const drawerCheckbox = document.getElementById("my-drawer-2") as HTMLInputElement;
+                    if (drawerCheckbox) {
+                      drawerCheckbox.checked = false; // This will close the sidebar
+                    }
+                  }}>
                     <li>
                       <span>
                         <GiBlackBook /> {category.name}
@@ -51,6 +71,8 @@ const SidebarCategories = async () => {
                     </li>
                   </Link>
                 ))}
+
+
               </ul>
             </div>
           </div>
@@ -84,32 +106,32 @@ const SidebarCategories = async () => {
         </div>
       </div> */}
 
-<div className="menu w-64 min-h-full">
-    <div>
-      <div className="collapse collapse-plus border border-base-300">
-        <input type="checkbox" className="peer" />
+      <div className="menu w-64 min-h-full">
+        <div>
+          <div className="collapse collapse-plus border border-base-300">
+            <input type="checkbox" className="peer" />
 
-        <div className={`collapse-title flex items-center rtl-direction ${styles.rtl_direction} `}>
-          <span className="text-2xl mr-2"> {/* Icon or placeholder */} </span>
-          <span>كتب عربية</span>
-        </div>
+            <div className={`collapse-title flex items-center rtl-direction ${styles.rtl_direction} `}>
+              <span className="text-2xl mr-2"> {/* Icon or placeholder */} </span>
+              <span>كتب عربية</span>
+            </div>
 
-        <div className="collapse-content">
-          <ul>
-            {arcategories.map((category) => (
-              <Link key={category.id} href={`/${category.servername}`}>
-                <li>
-                  <span className={`${styles.rtl_direction}`}>
-                    <GiBlackBook className="mr-1" /> {category.name}
-                  </span>
-                </li>
-              </Link>
-            ))}
-          </ul>
+            <div className="collapse-content">
+              <ul>
+                {arcategories.map((category) => (
+                  <Link key={category.id} href={`/${category.servername}`}>
+                    <li>
+                      <span className={`${styles.rtl_direction}`}>
+                        <GiBlackBook className="mr-1" /> {category.name}
+                      </span>
+                    </li>
+                  </Link>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
 
     </div>
   );

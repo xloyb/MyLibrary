@@ -5,6 +5,8 @@
 import React from 'react';
 import Link from 'next/link';
 import SidebarCategories from './categories/SidebarCategories';
+import SidebarCategories2 from './categories/SidebarCategories2';
+import DropdownMenu from './DropDown';
 
 
 
@@ -30,7 +32,14 @@ const Sidebar = () => {
               </Link>
             </li>
             {/* Sidebar content here */}
-          <SidebarCategories />
+
+            <div className='lg:hidden'>
+
+              <DropdownMenu />
+            </div>
+
+            {/* <SidebarCategories /> */}
+            <SidebarCategories2 />
           </ul>
         </div>
       </div>

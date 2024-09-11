@@ -175,7 +175,7 @@ const Navbar = () => {
                 <Link href="/">Home</Link>
               </li>
               <li>
-                <Link href="/c">Dashboard</Link>
+                <Link href="/about">About</Link>
               </li>
               <ClerkLoaded>
                 <SignedIn>

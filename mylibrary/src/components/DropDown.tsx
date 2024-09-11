@@ -43,6 +43,9 @@ const DropdownMenu = () => {
             <li className="mt-2">
                 <Link href="/" className="btn btn-outline btn-sm btn-primary w-full lg:w-auto">Home</Link>
             </li>
+            <li className="mt-2">
+                <Link href="/about" className="btn btn-outline btn-sm btn-primary w-full lg:w-auto">About</Link>
+            </li>
             
             <ClerkLoaded>
                 <SignedIn>

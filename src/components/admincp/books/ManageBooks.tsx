@@ -1224,37 +1224,7 @@ const ManageBooks: React.FC = () => {
         <div className="container mx-auto p-6">
             <h1 className="text-2xl font-bold mb-6">Manage Books</h1>
 
-            {/* Book Listing */}
-            <div className="flex flex-wrap -mx-4">
-                {books.map((book) => (
-                    <div key={book.id} className="w-full md:w-1/3 px-4 mb-6">
-                        <div className="bg-white shadow-md rounded-lg overflow-hidden">
-                            <img src={book.image ||''} alt={book.title} className="w-full h-48 object-cover" />
-                            <div className="p-4">
-                                <h2 className="text-xl font-semibold">{book.title}</h2>
-                                <p>{book.description}</p>
-                                <p className="text-gray-500">Author: {book.authorname}</p>
-                                <p className="text-gray-500">Category: {categories.find(category => category.id === book.categoryId)?.name}</p>
-                                <p className="text-gray-500">Published: xxxx</p>
-                                <div className="flex justify-between mt-4">
-                                    <button
-                                        onClick={() => openUpdateModal(book)}
-                                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-                                    >
-                                        Update
-                                    </button>
-                                    <button
-                                        onClick={() => handleDeleteBook(book.id)}
-                                        className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
-                                    >
-                                        Delete
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
+           
 
             {/* Add Book Section */}
             <div className="mt-8">
@@ -1341,6 +1311,38 @@ const ManageBooks: React.FC = () => {
                         </button>
                     </div>
                 </div>
+            </div>
+
+ {/* Book Listing */}
+ <div className="flex flex-wrap -mx-4">
+                {books.map((book) => (
+                    <div key={book.id} className="w-full md:w-1/3 px-4 mb-6">
+                        <div className="bg-white shadow-md rounded-lg overflow-hidden">
+                            <img src={`/images/books/${book.image ||''}`} alt={book.title} className="w-full h-48 object-cover" />
+                            <div className="p-4">
+                                <h2 className="text-xl font-semibold">{book.title}</h2>
+                                <p>{book.description}</p>
+                                <p className="text-gray-500">Author: {book.authorname}</p>
+                                <p className="text-gray-500">Category: {categories.find(category => category.id === book.categoryId)?.name}</p>
+                                <p className="text-gray-500">Published: xxxx</p>
+                                <div className="flex justify-between mt-4">
+                                    <button
+                                        onClick={() => openUpdateModal(book)}
+                                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                                    >
+                                        Update
+                                    </button>
+                                    <button
+                                        onClick={() => handleDeleteBook(book.id)}
+                                        className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ))}
             </div>
 
             {/* Update Book Modal */}

@@ -61,9 +61,6 @@ import { getBooksByCategoryServername } from "@/lib/book";
 import { book } from "@prisma/client";
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
-import SlideCaptchaModal from "@/components/Captcha/SlideCaptcha";
-import SlideImageCaptcha from "@/components/Captcha/SlideImageCaptcha";
 import MyHcaptcha from "@/components/Captcha/HCaptcha";
 
 interface BooksPageProps {
@@ -84,7 +81,7 @@ const BooksPage: React.FC<BooksPageProps> = async ({ params }) => {
   }
 
   return (
-    <div className="bg-base-100 card mx-6 mt-5 md:pt-4 px-6">
+    <div className="bg-base-100 card mx-2 mt-5 md:pt-4 px-6">
       <div className="text-xl font-semibold inline-block">
         MyDevify.com Library
       </div>

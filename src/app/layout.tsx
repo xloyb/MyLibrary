@@ -145,7 +145,7 @@ const Layout = ({ children }: LayoutProps) => {
               <div className="sticky top-0 z-10">
                 <Navbar />
               </div>
-              <main className="flex-1 overflow-y-auto p-4 bg-base-200">
+              <main className="flex-1 overflow-y-auto p-2 bg-base-200">
                 {children}
               </main>
               <div className="sticky bottom-0">

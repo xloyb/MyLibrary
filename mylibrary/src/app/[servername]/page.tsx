@@ -114,6 +114,7 @@ const BooksPage: React.FC<BooksPageProps> = async ({ params }) => {
                     src={`/images/books/${
                       book.image || "/default-book-cover.jpg"
                     }`}
+                    // src={"/images/books/MyDevify_category.jpg"}
                     alt={book.title}
                     layout="fill"
                     objectFit="contain"

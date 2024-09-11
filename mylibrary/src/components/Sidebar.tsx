@@ -1,6 +1,3 @@
-
-
-
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import Link from 'next/link';
@@ -28,7 +25,7 @@ const Sidebar = () => {
           <ul className="menu bg-base-100 text-base-content min-h-full w-80 p-4 flex flex-col ">
             <li className="mb-2 font-semibold text-xl">
               <Link href={'/'}>
-                <img src='https://mydevify.com/assets/xLoyMybb.5944be68.png' alt="MyLibrary by MyDevify.com" width={30} height={30} /> MyDevify.com
+                <img src='/icon.png' alt="MyLibrary by MyDevify.com" width={30} height={30} /> MyDevify.com
               </Link>
             </li>
             {/* Sidebar content here */}

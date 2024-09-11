@@ -221,7 +221,7 @@ const Navbar = () => {
           </label>
         </div>
         <div className="navbar-center">
-          <a className="btn btn-ghost text-xl">{sitename}</a>
+          <a href="/" className="btn btn-ghost text-xl">{sitename}</a>
         </div>
         <div className="navbar-end">
           <ThemeToggle />

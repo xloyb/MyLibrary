@@ -26,6 +26,11 @@
 - **SEO Friendly**: Optimized for search engines and tested by [PageSpeed Insights](https://pagespeed.web.dev/).
 - **Light and Dark Themes**: MyLibrary offers a default dark theme and a light mode. Users can switch between themes. _[Add temp pictures here]_
 
+
+## **Page Speed Test**
+   ![Screenshot 1](https://github.com/mydevify/MyLibrary/blob/main/public/images/showcase/PageSpeed.PNG?raw=true)
+
+
 ## Is MyLibrary Open Source?
 
 Yes! **MyLibrary** is 100% open source. You can find the full project and contribute to its development on GitHub:
@@ -81,7 +86,7 @@ NEXT_WEBSITE_URL=https://library.mydevify.com
 
 1. Create an account on [Clerk.dev](https://clerk.dev) and get your keys.
 2. Add a webhook in the **Clerk** dashboard:
-   - Webhook URL: `<NEXT_WEBSITE_URL>/api/clerk-webhook`
+   - Webhook URL: `<NEXT_WEBSITE_URL>/api/webhooks/clerk`
 3. Add your **Clerk** keys to the `.env` file.
 
 #### 5. Set up **hCaptcha**

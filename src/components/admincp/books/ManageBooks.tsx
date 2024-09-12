@@ -423,185 +423,333 @@ const handleAddBook = async () => {
     };
 
     return (
-        <div className="container mx-auto p-6">
-            <h1 className="text-2xl font-bold mb-6">Manage Books</h1>
+//         <div className="container mx-auto p-6">
+//             <h1 className="text-2xl font-bold mb-6">Manage Books</h1>
 
            
 
-            {/* Add Book Section */}
-            <div className="mt-8">
-                <h2 className="text-xl font-bold mb-4">Add a New Book</h2>
-                <div className="bg-white shadow-md rounded-lg p-6">
-                    {/* Add Book Form */}
-                    <div className="grid grid-cols-1 gap-6">
-                        <div>
-                            <label htmlFor="title" className="block font-semibold">Title</label>
-                            <input
-                                type="text"
-                                id="title"
-                                name="title"
-                                value={newBook.title}
-                                onChange={handleInputChange}
-                                className="w-full border border-gray-300 rounded-md p-2"
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="description" className="block font-semibold">Description</label>
-                            <textarea
-                                id="description"
-                                name="description"
-                                value={newBook.description ?? ''} // Safe fallback if description is null
-                                onChange={handleTextAreaChange}
-                                className="w-full border border-gray-300 rounded-md p-2"
-                            ></textarea>
-                        </div>
-                        <div>
-                            <label htmlFor="authorname" className="block font-semibold">Author Name</label>
-                            <input
-                                type="text"
-                                id="authorname"
-                                name="authorname"
-                                value={newBook.authorname ?? ''} // Safe fallback if authorname is null
-                                onChange={handleInputChange}
-                                className="w-full border border-gray-300 rounded-md p-2"
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="categoryId" className="block font-semibold">Category</label>
-                            <select
-                                id="categoryId"
-                                name="categoryId"
-                                value={newBook.categoryId}
-                                onChange={handleSelectChange}
-                                className="w-full border border-gray-300 rounded-md p-2"
-                            >
-                                <option value="0">Select Category</option>
-                                {categories.map((category) => (
-                                    <option key={category.id} value={category.id}>{category.name}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <div>
-                            <label htmlFor="file" className="block font-semibold">Upload PDF</label>
-                            <input
-                                type="file"
-                                id="file"
-                                accept=".pdf"
-                                onChange={handleFileChange}
-                                className="w-full border border-gray-300 rounded-md p-2"
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="image" className="block font-semibold">Upload Image</label>
-                            <input
-                                type="file"
-                                id="image"
-                                accept="image/*"
-                                onChange={handleImageChange}
-                                className="w-full border border-gray-300 rounded-md p-2"
-                            />
-                        </div>
-                    </div>
+//             {/* Add Book Section */}
+//             <div className="mt-8">
+//                 <h2 className="text-xl font-bold mb-4">Add a New Book</h2>
+//                 <div className="bg-white shadow-md rounded-lg p-6">
+//                     {/* Add Book Form */}
+//                     <div className="grid grid-cols-1 gap-6">
+//                         <div>
+//                             <label htmlFor="title" className="block font-semibold">Title</label>
+//                             <input
+//                                 type="text"
+//                                 id="title"
+//                                 name="title"
+//                                 value={newBook.title}
+//                                 onChange={handleInputChange}
+//                                 className="w-full border border-gray-300 rounded-md p-2"
+//                             />
+//                         </div>
+//                         <div>
+//                             <label htmlFor="description" className="block font-semibold">Description</label>
+//                             <textarea
+//                                 id="description"
+//                                 name="description"
+//                                 value={newBook.description ?? ''} // Safe fallback if description is null
+//                                 onChange={handleTextAreaChange}
+//                                 className="w-full border border-gray-300 rounded-md p-2"
+//                             ></textarea>
+//                         </div>
+//                         <div>
+//                             <label htmlFor="authorname" className="block font-semibold">Author Name</label>
+//                             <input
+//                                 type="text"
+//                                 id="authorname"
+//                                 name="authorname"
+//                                 value={newBook.authorname ?? ''} // Safe fallback if authorname is null
+//                                 onChange={handleInputChange}
+//                                 className="w-full border border-gray-300 rounded-md p-2"
+//                             />
+//                         </div>
+//                         <div>
+//                             <label htmlFor="categoryId" className="block font-semibold">Category</label>
+//                             <select
+//                                 id="categoryId"
+//                                 name="categoryId"
+//                                 value={newBook.categoryId}
+//                                 onChange={handleSelectChange}
+//                                 className="w-full border border-gray-300 rounded-md p-2"
+//                             >
+//                                 <option value="0">Select Category</option>
+//                                 {categories.map((category) => (
+//                                     <option key={category.id} value={category.id}>{category.name}</option>
+//                                 ))}
+//                             </select>
+//                         </div>
+//                         <div>
+//                             <label htmlFor="file" className="block font-semibold">Upload PDF</label>
+//                             <input
+//                                 type="file"
+//                                 id="file"
+//                                 accept=".pdf"
+//                                 onChange={handleFileChange}
+//                                 className="w-full border border-gray-300 rounded-md p-2"
+//                             />
+//                         </div>
+//                         <div>
+//                             <label htmlFor="image" className="block font-semibold">Upload Image</label>
+//                             <input
+//                                 type="file"
+//                                 id="image"
+//                                 accept="image/*"
+//                                 onChange={handleImageChange}
+//                                 className="w-full border border-gray-300 rounded-md p-2"
+//                             />
+//                         </div>
+//                     </div>
 
-                    <div className="mt-4">
-                        <button
-                            onClick={handleAddBook}
-                            disabled={loading}
-                            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
-                        >
-                            {loading ? 'Adding...' : 'Add Book'}
-                        </button>
-                    </div>
+//                     <div className="mt-4">
+//                         <button
+//                             onClick={handleAddBook}
+//                             disabled={loading}
+//                             className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+//                         >
+//                             {loading ? 'Adding...' : 'Add Book'}
+//                         </button>
+//                     </div>
+//                 </div>
+//             </div>
+
+//  {/* Book Listing */}
+//  <div className="flex flex-wrap -mx-4">
+//                 {books.map((book) => (
+//                     <div key={book.id} className="w-full md:w-1/3 px-4 mb-6">
+//                         <div className="bg-white shadow-md rounded-lg overflow-hidden">
+//                             <img src={`/images/books/${book.image ||''}`} alt={book.title} className="w-full h-48 object-cover" />
+//                             <div className="p-4">
+//                                 <h2 className="text-xl font-semibold">{book.title}</h2>
+//                                 <p>{book.description}</p>
+//                                 <p className="text-gray-500">Author: {book.authorname}</p>
+//                                 <p className="text-gray-500">Category: {categories.find(category => category.id === book.categoryId)?.name}</p>
+//                                 <p className="text-gray-500">Published: xxxx</p>
+//                                 <div className="flex justify-between mt-4">
+//                                     <button
+//                                         onClick={() => openUpdateModal(book)}
+//                                         className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+//                                     >
+//                                         Update
+//                                     </button>
+//                                     <button
+//                                         onClick={() => handleDeleteBook(book.id)}
+//                                         className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+//                                     >
+//                                         Delete
+//                                     </button>
+//                                 </div>
+//                             </div>
+//                         </div>
+//                     </div>
+//                 ))}
+//             </div>
+
+//             {/* Update Book Modal */}
+//             {selectedBook && (
+//                 // <UpdateBookModal
+//                 //     isOpen={isModalOpen}
+//                 //     book={selectedBook}
+//                 //     onClose={closeUpdateModal}
+//                 //     onUpdate={() => setBooks(prev => prev.map(b => (b.id === selectedBook.id ? selectedBook : b)))}
+//                 // />
+
+                
+//                 // <UpdateBookModal
+//                 //         book={selectedBook}
+//                 //         onClose={() => setIsModalOpen(false)}
+//                 //         onUpdate={(updatedBook) => {
+//                 //             setBooks(books.map(book => 
+//                 //                 book.id === updatedBook.id
+//                 //                     ? {
+//                 //                         ...updatedBook,
+//                 //                         description: updatedBook.description ?? "",  
+//                 //                         authorname: updatedBook.authorname ?? "",    
+//                 //                         image: updatedBook.image ?? "",              
+//                 //                         size: updatedBook.size ?? 0 
+//                 //                     }
+//                 //                     : book
+//                 //             ));
+//                 //         }}
+//                 //     />
+
+//                 <UpdateBookModal
+//     book={{
+//         ...selectedBook,
+//         publishedAt: selectedBook.publishedAt ? new Date(selectedBook.publishedAt) : null
+//     }}
+//     onClose={() => setIsModalOpen(false)}
+//     onUpdate={(updatedBook) => {
+//         setBooks(books.map(book =>
+//             book.id === updatedBook.id
+//                 ? {
+//                     ...updatedBook,
+//                     description: updatedBook.description ?? "",
+//                     authorname: updatedBook.authorname ?? "",
+//                     image: updatedBook.image ?? "",
+//                     size: updatedBook.size ?? 0,
+//                     publishedAt: updatedBook.publishedAt ? new Date(updatedBook.publishedAt) : null // Ensure correct type
+//                 }
+//                 : book
+//         ));
+//     }}
+// />
+
+
+
+
+//             )}
+//         </div>
+<div className="container mx-auto p-6">
+    <h1 className="text-2xl font-bold mb-6">Manage Books</h1>
+
+    {/* Add Book Section */}
+    <div className="mt-8">
+        <h2 className="text-xl font-bold mb-4">Add a New Book</h2>
+        <div className="bg-base-100 shadow-md rounded-lg p-6">
+            {/* Add Book Form */}
+            <div className="grid grid-cols-1 gap-6">
+                <div>
+                    <label htmlFor="title" className="block font-semibold">Title</label>
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        value={newBook.title}
+                        onChange={handleInputChange}
+                        className="w-full border border-base-300 rounded-md p-2"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="description" className="block font-semibold">Description</label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        value={newBook.description ?? ''} // Safe fallback if description is null
+                        onChange={handleTextAreaChange}
+                        className="w-full border border-base-300 rounded-md p-2"
+                    ></textarea>
+                </div>
+                <div>
+                    <label htmlFor="authorname" className="block font-semibold">Author Name</label>
+                    <input
+                        type="text"
+                        id="authorname"
+                        name="authorname"
+                        value={newBook.authorname ?? ''} // Safe fallback if authorname is null
+                        onChange={handleInputChange}
+                        className="w-full border border-base-300 rounded-md p-2"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="categoryId" className="block font-semibold">Category</label>
+                    <select
+                        id="categoryId"
+                        name="categoryId"
+                        value={newBook.categoryId}
+                        onChange={handleSelectChange}
+                        className="w-full border border-base-300 rounded-md p-2"
+                    >
+                        <option value="0">Select Category</option>
+                        {categories.map((category) => (
+                            <option key={category.id} value={category.id}>{category.name}</option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <label htmlFor="file" className="block font-semibold">Upload PDF</label>
+                    <input
+                        type="file"
+                        id="file"
+                        accept=".pdf"
+                        onChange={handleFileChange}
+                        className="w-full border border-base-300 rounded-md p-2"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="image" className="block font-semibold">Upload Image</label>
+                    <input
+                        type="file"
+                        id="image"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        className="w-full border border-base-300 rounded-md p-2"
+                    />
                 </div>
             </div>
 
- {/* Book Listing */}
- <div className="flex flex-wrap -mx-4">
-                {books.map((book) => (
-                    <div key={book.id} className="w-full md:w-1/3 px-4 mb-6">
-                        <div className="bg-white shadow-md rounded-lg overflow-hidden">
-                            <img src={`/images/books/${book.image ||''}`} alt={book.title} className="w-full h-48 object-cover" />
-                            <div className="p-4">
-                                <h2 className="text-xl font-semibold">{book.title}</h2>
-                                <p>{book.description}</p>
-                                <p className="text-gray-500">Author: {book.authorname}</p>
-                                <p className="text-gray-500">Category: {categories.find(category => category.id === book.categoryId)?.name}</p>
-                                <p className="text-gray-500">Published: xxxx</p>
-                                <div className="flex justify-between mt-4">
-                                    <button
-                                        onClick={() => openUpdateModal(book)}
-                                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-                                    >
-                                        Update
-                                    </button>
-                                    <button
-                                        onClick={() => handleDeleteBook(book.id)}
-                                        className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
-                                    >
-                                        Delete
-                                    </button>
-                                </div>
-                            </div>
+            <div className="mt-4">
+                <button
+                    onClick={handleAddBook}
+                    disabled={loading}
+                    className="bg-success hover:bg-success/80 text-base-100 font-bold py-2 px-4 rounded"
+                >
+                    {loading ? 'Adding...' : 'Add Book'}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    {/* Book Listing */}
+    <div className="flex flex-wrap -mx-4">
+        {books.map((book) => (
+            <div key={book.id} className="w-full md:w-1/3 px-4 mb-6">
+                <div className="bg-base-100 shadow-md rounded-lg overflow-hidden">
+                    <img src={`/images/books/${book.image || ''}`} alt={book.title} className="w-full h-48 object-cover" />
+                    <div className="p-4">
+                        <h2 className="text-xl font-semibold">{book.title}</h2>
+                        <p>{book.description}</p>
+                        <p className="text-base-content">Author: {book.authorname}</p>
+                        <p className="text-base-content">Category: {categories.find(category => category.id === book.categoryId)?.name}</p>
+                        <p className="text-base-content">Published: xxxx</p>
+                        <div className="flex justify-between mt-4">
+                            <button
+                                onClick={() => openUpdateModal(book)}
+                                className="bg-primary hover:bg-primary/80 text-base-100 font-bold py-2 px-4 rounded"
+                            >
+                                Update
+                            </button>
+                            <button
+                                onClick={() => handleDeleteBook(book.id)}
+                                className="bg-danger hover:bg-danger/80 text-base-100 font-bold py-2 px-4 rounded"
+                            >
+                                Delete
+                            </button>
                         </div>
                     </div>
-                ))}
+                </div>
             </div>
+        ))}
+    </div>
 
-            {/* Update Book Modal */}
-            {selectedBook && (
-                // <UpdateBookModal
-                //     isOpen={isModalOpen}
-                //     book={selectedBook}
-                //     onClose={closeUpdateModal}
-                //     onUpdate={() => setBooks(prev => prev.map(b => (b.id === selectedBook.id ? selectedBook : b)))}
-                // />
+    {/* Update Book Modal */}
+    {selectedBook && (
+        <UpdateBookModal
+            book={{
+                ...selectedBook,
+                publishedAt: selectedBook.publishedAt ? new Date(selectedBook.publishedAt) : null
+            }}
+            onClose={() => setIsModalOpen(false)}
+            onUpdate={(updatedBook) => {
+                setBooks(books.map(book =>
+                    book.id === updatedBook.id
+                        ? {
+                            ...updatedBook,
+                            description: updatedBook.description ?? "",
+                            authorname: updatedBook.authorname ?? "",
+                            image: updatedBook.image ?? "",
+                            size: updatedBook.size ?? 0,
+                            publishedAt: updatedBook.publishedAt ? new Date(updatedBook.publishedAt) : null // Ensure correct type
+                        }
+                        : book
+                ));
+            }}
+        />
+    )}
+</div>
 
-                
-                // <UpdateBookModal
-                //         book={selectedBook}
-                //         onClose={() => setIsModalOpen(false)}
-                //         onUpdate={(updatedBook) => {
-                //             setBooks(books.map(book => 
-                //                 book.id === updatedBook.id
-                //                     ? {
-                //                         ...updatedBook,
-                //                         description: updatedBook.description ?? "",  
-                //                         authorname: updatedBook.authorname ?? "",    
-                //                         image: updatedBook.image ?? "",              
-                //                         size: updatedBook.size ?? 0 
-                //                     }
-                //                     : book
-                //             ));
-                //         }}
-                //     />
-
-                <UpdateBookModal
-    book={{
-        ...selectedBook,
-        publishedAt: selectedBook.publishedAt ? new Date(selectedBook.publishedAt) : null
-    }}
-    onClose={() => setIsModalOpen(false)}
-    onUpdate={(updatedBook) => {
-        setBooks(books.map(book =>
-            book.id === updatedBook.id
-                ? {
-                    ...updatedBook,
-                    description: updatedBook.description ?? "",
-                    authorname: updatedBook.authorname ?? "",
-                    image: updatedBook.image ?? "",
-                    size: updatedBook.size ?? 0,
-                    publishedAt: updatedBook.publishedAt ? new Date(updatedBook.publishedAt) : null // Ensure correct type
-                }
-                : book
-        ));
-    }}
-/>
-
-
-
-
-            )}
-        </div>
     );
 };
 

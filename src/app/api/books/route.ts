@@ -1,16 +1,25 @@
 import prisma from '@/lib/client';
 import { NextResponse } from 'next/server';
 
-// Create a new book
+const toISODate = (date: string | Date | null) => {
+  if (!date || (typeof date === 'string' && date.trim() === '')) return null;
+  return typeof date === 'string' ? new Date(date).toISOString() : date.toISOString();
+};
+
+
 export async function POST(request: Request) {
   const { title, description, publishedAt, authorname, categoryId, userId, downloads, image, size, path } = await request.json();
+
+  // Validate publishedAt
+  const formattedPublishedAt = toISODate(publishedAt);
+  console.log("formattedPublishedAt: ",formattedPublishedAt)
 
   try {
     const newBook = await prisma.book.create({
       data: {
         title,
         description,
-        publishedAt,
+        publishedAt: formattedPublishedAt,
         authorname,
         categoryId,
         userId,
@@ -26,6 +35,32 @@ export async function POST(request: Request) {
     return NextResponse.error();
   }
 }
+
+// Create a new book
+// export async function POST(request: Request) {
+//   const { title, description, publishedAt, authorname, categoryId, userId, downloads, image, size, path } = await request.json();
+
+//   try {
+//     const newBook = await prisma.book.create({
+//       data: {
+//         title,
+//         description,
+//         publishedAt: toISODate(publishedAt),
+//         authorname,
+//         categoryId,
+//         userId,
+//         downloads,
+//         image,
+//         size,
+//         path,
+//       },
+//     });
+//     return NextResponse.json(newBook);
+//   } catch (error) {
+//     console.error('Failed to create book:', error);
+//     return NextResponse.error();
+//   }
+// }
 
 // Update an existing book
 export async function PUT(request: Request) {

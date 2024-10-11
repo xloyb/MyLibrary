@@ -4,8 +4,8 @@
   
 | ![Image 1](https://raw.githubusercontent.com/mydevify/MyLibrary/main/public/images/showcase/Home_Drak.PNG) | ![Image 2](https://github.com/mydevify/MyLibrary/blob/main/public/images/showcase/Home_Light.PNG?raw=true) |
 |-------------------------|-------------------------|
-| ![Image 3](https://github.com/mydevify/MyLibrary/blob/main/public/images/showcase/Categories_Dark.PNG?raw=true)| ![Image 4](https://github.com/mydevify/MyLibrary/blob/main/public/images/showcase/Categories_Light.PNG?raw=true) |
-| ![Image 5](https://github.com/mydevify/MyLibrary/blob/main/public/images/showcase/Books_Dark.PNG?raw=true)| ![Image 6](https://github.com/mydevify/MyLibrary/blob/main/public/images/showcase/Books_Light.PNG?raw=true) |
+| ![Image 3](https://github.com/xloyb/MyLibrary/blob/main/public/images/showcase/Categories_Dark.PNG?raw=true)| ![Image 4](https://github.com/xloyb/MyLibrary/blob/main/public/images/showcase/Categories_Light.PNG?raw=true) |
+| ![Image 5](https://github.com/xloyb/MyLibrary/blob/main/public/images/showcase/Books_Dark.PNG?raw=true)| ![Image 6](https://github.com/xloyb/MyLibrary/blob/main/public/images/showcase/Books_Light.PNG?raw=true) |
 
 
 
@@ -28,7 +28,7 @@
 
 
 ## **Page Speed Test**
-   ![Screenshot 1](https://github.com/mydevify/MyLibrary/blob/main/public/images/showcase/PageSpeed.PNG?raw=true)
+   ![Screenshot 1](https://github.com/xloyb/MyLibrary/blob/main/public/images/showcase/PageSpeed.PNG?raw=true)
 
 
 ## Is MyLibrary Open Source?
